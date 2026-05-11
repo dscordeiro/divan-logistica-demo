@@ -1,0 +1,192 @@
+/* extras-montador.css — App do Montador (variação âmbar do motorista) */
+
+.mont-header {
+  position: relative;
+  /* âmbar puro pra diferenciar do motorista (laranja-fogo) */
+  background: linear-gradient(135deg, #F7A800 0%, #FFB800 60%, #FFC940 100%);
+  color: #1a1a1a;
+  padding: 0 20px 32px;
+  overflow: hidden;
+  margin-top: -48px;
+  padding-top: 60px;
+}
+.mont-header::after {
+  content: "";
+  position: absolute;
+  left: -8%; right: -8%; bottom: -2px;
+  height: 36px;
+  background: var(--color-bg-soft);
+  transform: rotate(-5deg);
+  transform-origin: bottom right;
+}
+.mont-header .top-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.mont-header .greet { font-size: 13px; opacity: 0.85; }
+.mont-header .greet strong { font-weight: 700; }
+.mont-header h1 { font-size: 26px; font-weight: 800; letter-spacing: -0.02em; margin: 0; line-height: 1.05; }
+.mont-header .date { font-size: 13px; opacity: 0.78; margin-top: 4px; }
+.mont-header .av-icon {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.18);
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 14px;
+}
+.mont-header .pay-strip {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+  padding: 12px 16px;
+  background: rgba(0,0,0,0.86);
+  color: #fff;
+  border-radius: 14px;
+}
+.mont-header .pay-strip .lbl { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; opacity: 0.7; font-weight: 600; }
+.mont-header .pay-strip .val { font-size: 20px; font-weight: 800; letter-spacing: -0.02em; }
+.mont-header .pay-strip .sep { width: 1px; height: 28px; background: rgba(255,255,255,0.18); }
+.mont-header .pay-strip .pill {
+  padding: 4px 10px;
+  background: var(--color-success);
+  border-radius: 999px;
+  font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.06em;
+}
+
+/* OS (ordem de serviço) — variação do delivery */
+.os-card {
+  background: #fff;
+  border: 1.5px solid var(--color-border);
+  border-radius: 18px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.os-card.active {
+  border-color: #F7A800;
+  border-width: 2px;
+  background: #FFFBEB;
+  box-shadow: 0 8px 24px rgba(247,168,0,0.18);
+}
+.os-card .head { display: flex; align-items: center; gap: 12px; }
+.os-card .slot {
+  width: 56px;
+  text-align: center;
+  background: var(--color-bg-soft);
+  border-radius: 12px;
+  padding: 8px 0;
+  flex-shrink: 0;
+}
+.os-card.active .slot { background: #F7A800; color: #1a1a1a; }
+.os-card .slot .h { font-size: 18px; font-weight: 800; letter-spacing: -0.02em; line-height: 1; }
+.os-card .slot .m { font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 700; opacity: 0.7; margin-top: 4px; }
+.os-card .meta { flex: 1; min-width: 0; }
+.os-card .cli { font-size: 16px; font-weight: 700; letter-spacing: -0.01em; }
+.os-card .addr { font-size: 12px; color: var(--color-text-secondary); margin-top: 2px; }
+.os-card .chev { color: var(--color-text-disabled); }
+.os-card .prods {
+  display: flex; flex-wrap: wrap; gap: 6px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--color-border);
+}
+.os-card .prod-chip {
+  font-size: 11px;
+  padding: 4px 10px;
+  background: var(--color-bg-soft);
+  border-radius: 999px;
+  font-weight: 500;
+}
+.os-card.active .prod-chip { background: rgba(0,0,0,0.06); }
+.os-card .foot {
+  display: flex; justify-content: space-between; align-items: center;
+  padding-top: 8px;
+  border-top: 1px dashed var(--color-border);
+}
+.os-card .pay { font-size: 13px; font-weight: 700; color: var(--color-success); }
+.os-card .pay small { font-size: 10px; font-weight: 600; color: var(--color-text-secondary); margin-right: 4px; text-transform: uppercase; letter-spacing: 0.06em; }
+.os-card .complex {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 700;
+  padding: 3px 8px; border-radius: 999px;
+}
+.os-card .complex.alta { background: #FEE4E2; color: #B42318; }
+.os-card .complex.media { background: #FEF0C7; color: #B54708; }
+.os-card .complex.baixa { background: #D1FADF; color: #027A48; }
+
+/* Foto capture mock */
+.photo-capture {
+  background: #fff;
+  border: 2px dashed var(--color-border);
+  border-radius: 18px;
+  padding: 24px 16px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.photo-capture.required {
+  border-color: #F7A800;
+  background: #FFFBEB;
+}
+.photo-capture .ico {
+  width: 56px; height: 56px;
+  background: #F7A800;
+  color: #1a1a1a;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+}
+.photo-capture .ttl { font-size: 15px; font-weight: 700; }
+.photo-capture .sub { font-size: 12px; color: var(--color-text-secondary); }
+.photo-capture .req-tag {
+  position: absolute;
+  top: 12px; right: 12px;
+  font-size: 10px; font-weight: 700;
+  padding: 3px 8px;
+  background: #B42318;
+  color: #fff;
+  border-radius: 999px;
+  text-transform: uppercase; letter-spacing: 0.06em;
+}
+.photo-capture-wrap { position: relative; }
+
+.photo-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.photo-thumb {
+  aspect-ratio: 1;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #e8eef5, #d8e4ee);
+  position: relative;
+  overflow: hidden;
+}
+.photo-thumb.taken {
+  background: linear-gradient(135deg, #4a5a6a 0%, #2d3a4a 100%);
+}
+.photo-thumb .lbl {
+  position: absolute;
+  bottom: 8px; left: 8px;
+  font-size: 10px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  padding: 3px 8px;
+  border-radius: 999px;
+}
+.photo-thumb .check {
+  position: absolute;
+  top: 8px; right: 8px;
+  width: 22px; height: 22px;
+  background: var(--color-success);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff;
+}
+.photo-thumb .plus {
+  position: absolute;
+  inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--color-text-secondary);
+}

@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Divan Móveis · Sistema de Logística Inteligente</title>
+<meta name="description" content="Protótipo do Sistema de Logística Inteligente da Divan Móveis — Painel Administrativo, App do Motorista, App do Montador e Portal do Cliente." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="tokens.css" />
+<link rel="icon" type="image/png" href="assets/logo-color.png" />
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; min-height: 100vh; font-family: var(--font-sans); background: #0a0b0e; color: #fff; }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(800px 500px at 15% -10%, rgba(255,77,0,0.22), transparent 60%),
+      radial-gradient(700px 400px at 95% 10%, rgba(247,168,0,0.18), transparent 60%),
+      radial-gradient(900px 500px at 50% 110%, rgba(204,85,0,0.20), transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrap { position: relative; z-index: 1; max-width: 1280px; margin: 0 auto; padding: 64px 32px 80px; }
+
+  .topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 56px; }
+  .brand { display: flex; align-items: center; gap: 14px; }
+  .brand-icon {
+    width: 48px; height: 48px;
+    background: linear-gradient(135deg, #FFB800 0%, #F7941D 50%, #CC5500 100%);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px; font-weight: 800; color: #fff;
+    box-shadow: 0 10px 24px rgba(255,77,0,0.35);
+  }
+  .brand-text .name { font-size: 22px; font-weight: 800; letter-spacing: -0.01em; }
+  .brand-text .tag { font-size: 12px; color: rgba(255,255,255,0.55); margin-top: 2px; }
+
+  .status-chip {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: rgba(34,197,94,0.12);
+    border: 1px solid rgba(34,197,94,0.3);
+    color: #4ade80;
+    font-size: 12px; font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .status-chip::before {
+    content: "";
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #4ade80;
+    box-shadow: 0 0 0 0 rgba(74,222,128,0.7);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(74,222,128,0.7); }
+    50% { box-shadow: 0 0 0 8px rgba(74,222,128,0); }
+  }
+
+  .hero { margin-bottom: 56px; max-width: 760px; }
+  .hero .kicker {
+    color: #FF8A50;
+    font-size: 12px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.16em;
+    margin-bottom: 16px;
+  }
+  .hero h1 {
+    margin: 0 0 16px;
+    font-size: clamp(40px, 5vw, 56px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+  }
+  .hero h1 .accent {
+    background: linear-gradient(135deg, #FFB800, #FF4D00);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .hero p {
+    margin: 0;
+    font-size: 18px;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.55;
+  }
+
+  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 32px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+    overflow: hidden;
+    min-height: 260px;
+  }
+  .card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 60%, var(--card-accent, transparent) 200%);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    pointer-events: none;
+  }
+  .card:hover {
+    transform: translateY(-4px);
+    border-color: var(--card-accent-border, rgba(255,255,255,0.18));
+    background: rgba(255,255,255,0.06);
+    box-shadow: 0 24px 48px rgba(0,0,0,0.3);
+  }
+  .card:hover::after { opacity: 0.5; }
+
+  .card .icon-wrap {
+    width: 56px; height: 56px;
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 24px;
+    background: var(--card-icon-bg, rgba(255,255,255,0.08));
+    color: var(--card-icon-color, #fff);
+  }
+  .card .icon-wrap svg { width: 28px; height: 28px; }
+
+  .card .role {
+    font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.14em;
+    color: var(--card-role-color, rgba(255,255,255,0.5));
+    margin-bottom: 8px;
+  }
+  .card h2 {
+    margin: 0 0 10px;
+    font-size: 26px; font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  .card p {
+    margin: 0 0 24px;
+    font-size: 14px;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.55;
+    flex: 1;
+  }
+  .card .cta {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 14px; font-weight: 600;
+    color: var(--card-cta-color, #fff);
+    transition: gap 0.25s ease;
+  }
+  .card:hover .cta { gap: 12px; }
+  .card .cta svg { width: 16px; height: 16px; }
+
+  .card.admin {
+    --card-accent: rgba(255,77,0,0.18);
+    --card-accent-border: rgba(255,77,0,0.4);
+    --card-icon-bg: linear-gradient(135deg, #FF4D00, #CC5500);
+    --card-icon-color: #fff;
+    --card-role-color: #FF8A50;
+    --card-cta-color: #FF8A50;
+  }
+  .card.motorista {
+    --card-accent: rgba(247,168,0,0.18);
+    --card-accent-border: rgba(255,138,80,0.4);
+    --card-icon-bg: linear-gradient(135deg, #FF4D00, #F7A800);
+    --card-icon-color: #fff;
+    --card-role-color: #FF8A50;
+    --card-cta-color: #FF8A50;
+  }
+  .card.montador {
+    --card-accent: rgba(255,201,64,0.18);
+    --card-accent-border: rgba(255,201,64,0.45);
+    --card-icon-bg: linear-gradient(135deg, #F7A800, #FFC940);
+    --card-icon-color: #1a1a1a;
+    --card-role-color: #FFC940;
+    --card-cta-color: #FFC940;
+  }
+  .card.cliente {
+    --card-accent: rgba(255,255,255,0.10);
+    --card-accent-border: rgba(255,255,255,0.25);
+    --card-icon-bg: rgba(255,255,255,0.95);
+    --card-icon-color: #1a1a1a;
+    --card-role-color: rgba(255,255,255,0.7);
+    --card-cta-color: #fff;
+  }
+
+  .footer {
+    margin-top: 64px;
+    padding-top: 28px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    color: rgba(255,255,255,0.45);
+    font-size: 12px;
+  }
+  .footer .by { display: inline-flex; align-items: center; gap: 8px; }
+  .footer .by strong { color: rgba(255,255,255,0.75); font-weight: 700; }
+
+  @media (max-width: 880px) {
+    .grid { grid-template-columns: 1fr; }
+    .wrap { padding: 40px 20px 60px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-icon">d</div>
+      <div class="brand-text">
+        <div class="name">Divan Móveis</div>
+        <div class="tag">Sistema de Logística Inteligente · Protótipo navegável</div>
+      </div>
+    </div>
+    <span class="status-chip">Demo ao vivo</span>
+  </header>
+
+  <section class="hero">
+    <div class="kicker">Bem-vindo à apresentação</div>
+    <h1>Logística <span class="accent">de coração</span>, da nota à montagem em casa.</h1>
+    <p>4 interfaces conectadas: o operador monta cargas e rotas, o motorista recebe e confirma entregas, o montador agenda e executa as montagens, e o cliente acompanha tudo em tempo real pelo WhatsApp. Escolha um perfil abaixo para navegar.</p>
+  </section>
+
+  <section class="grid">
+
+    <a class="card admin" href="admin.html">
+      <div class="icon-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="7" height="9" />
+          <rect x="14" y="3" width="7" height="5" />
+          <rect x="14" y="12" width="7" height="9" />
+          <rect x="3" y="16" width="7" height="5" />
+        </svg>
+      </div>
+      <div class="role">Operação · Desktop</div>
+      <h2>Painel Administrativo</h2>
+      <p>Dashboard, gestão de cargas com roteirização inteligente, mapa ao vivo da frota, controle de motoristas e montadores, dashboard de NPS.</p>
+      <span class="cta">
+        Abrir painel
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </span>
+    </a>
+
+    <a class="card motorista" href="motorista.html">
+      <div class="icon-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M1 3h15v13H1z"/>
+          <path d="M16 8h4l3 3v5h-7V8z"/>
+          <circle cx="5.5" cy="18.5" r="2.5"/>
+          <circle cx="18.5" cy="18.5" r="2.5"/>
+        </svg>
+      </div>
+      <div class="role">Motorista · App</div>
+      <h2>App do Motorista</h2>
+      <p>Agenda do dia, navegação até o cliente, confirmação de entrega com assinatura digital e foto, fim de turno e perfil com desempenho.</p>
+      <span class="cta">
+        Abrir app
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </span>
+    </a>
+
+    <a class="card montador" href="montador.html">
+      <div class="icon-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
+        </svg>
+      </div>
+      <div class="role">Montador parceiro · App</div>
+      <h2>App do Montador</h2>
+      <p>Agenda de montagens, checklist de itens e ferramentas, registro de conclusão com foto, repasse financeiro do mês e histórico.</p>
+      <span class="cta">
+        Abrir app
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </span>
+    </a>
+
+    <a class="card cliente" href="cliente.html">
+      <div class="icon-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+        </svg>
+      </div>
+      <div class="role">Cliente final · Avaliação</div>
+      <h2>Portal do Cliente</h2>
+      <p>Formulário de avaliação após a entrega e montagem: estrelas para o motorista, estrelas para o montador e NPS sobre a experiência geral.</p>
+      <span class="cta">
+        Abrir portal
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </span>
+    </a>
+
+  </section>
+
+  <footer class="footer">
+    <div class="by">
+      Desenvolvido por <strong>Leaf</strong> para a Divan Móveis · Cachoeiro de Itapemirim · ES
+    </div>
+    <div>© 2026 · Protótipo navegável v1.0</div>
+  </footer>
+
+</div>
+</body>
+</html>

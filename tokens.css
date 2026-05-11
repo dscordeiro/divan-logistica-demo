@@ -1,0 +1,77 @@
+/* =========================================================
+   Divan Móveis — Design Tokens
+   Sistema Logístico
+   ========================================================= */
+
+:root {
+  /* -------- Marca (Brand) -------- */
+  --color-brand-orange:   #FF4D00; /* laranja principal — CTAs, headers, destaques */
+  --color-brand-amber:    #F7A800; /* âmbar — rodapés, badges, ícones quentes */
+  --color-brand-mid:      #F7941D; /* laranja médio — gradientes, logo */
+  --color-brand-dark-org: #CC5500; /* laranja escuro — variações do logo */
+  --color-brand-yellow:   #FFB800; /* amarelo — highlight, hover states quentes */
+
+  /* -------- Neutras -------- */
+  --color-text-primary:   #1A1A1A;
+  --color-text-secondary: #6B6B6B;
+  --color-text-disabled:  #ABABAB;
+  --color-bg-white:       #FFFFFF;
+  --color-bg-soft:        #F9FAFB;
+  --color-border:         #E0E0E0;
+  --color-sidebar-bg:     #1A1A1A;
+
+  /* -------- Semânticas -------- */
+  --color-success: #22C55E;
+  --color-danger:  #EF4444;
+  --color-info:    #3B82F6;
+  --color-warning: #F59E0B;
+
+  /* tints (10% bg para badges) */
+  --color-success-soft: #DCFCE7;
+  --color-danger-soft:  #FEE2E2;
+  --color-info-soft:    #DBEAFE;
+  --color-warning-soft: #FEF3C7;
+  --color-brand-soft:   #FFE9DC;
+
+  /* -------- Tipografia -------- */
+  --font-sans: "Inter", "Poppins", system-ui, -apple-system, sans-serif;
+
+  --fs-display: clamp(40px, 5vw, 64px);
+  --fs-h1: 32px;
+  --fs-h2: 24px;
+  --fs-h3: 20px;
+  --fs-body: 15px;
+  --fs-label: 12px;
+  --fs-btn: 14px;
+
+  /* -------- Espaçamento (grid 8px) -------- */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 20px;
+  --s-6: 24px;
+  --s-8: 32px;
+  --s-10: 40px;
+  --s-12: 48px;
+  --s-16: 64px;
+
+  /* -------- Radii -------- */
+  --r-input: 8px;
+  --r-card:  12px;
+  --r-hero:  16px;
+  --r-pill:  999px;
+
+  /* -------- Shadows -------- */
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-card: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.06), 0 2px 4px rgba(0,0,0,0.04);
+  --shadow-lg: 0 12px 32px rgba(0,0,0,0.08), 0 4px 8px rgba(0,0,0,0.04);
+
+  /* -------- Gradientes da marca -------- */
+  --grad-brand: linear-gradient(135deg, #FFB800 0%, #F7941D 50%, #CC5500 100%);
+  --grad-brand-warm: linear-gradient(135deg, #FF4D00 0%, #F7A800 100%);
+
+  /* -------- Diagonais signature -------- */
+  --diag-angle: 4deg;
+}
