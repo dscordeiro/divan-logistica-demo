@@ -1,5 +1,50 @@
 /* extras-montador.css — App do Montador (variação âmbar do motorista) */
 
+/* Reset do phone-screen: o body do montador.html é dark (#0f1115 / #fff)
+   e sem esse override a cor branca herdada quebra texto sobre cards brancos */
+.phone-screen {
+  width: 100%; height: 100%;
+  background: var(--color-bg-soft);
+  border-radius: 40px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  color: var(--color-text-primary);
+}
+
+/* Body da agenda: scrolla, padding pra não colar no footer fixo */
+.mont-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 20px 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.mont-body .section-h {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  color: var(--color-text-secondary);
+  margin: 4px 0 8px;
+}
+
+/* Footer fixo do app (com botão "Continuar montagem ativa") */
+.mont-footer {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  padding: 12px 20px 18px;
+  background: linear-gradient(180deg, rgba(249,250,251,0) 0%, var(--color-bg-soft) 30%);
+}
+.mont-footer .hint {
+  font-size: 11px;
+  text-align: center;
+  color: var(--color-text-secondary);
+  margin-top: 6px;
+}
+
 .mont-header {
   position: relative;
   /* âmbar puro pra diferenciar do motorista (laranja-fogo) */
