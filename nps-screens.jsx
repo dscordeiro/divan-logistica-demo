@@ -501,7 +501,372 @@ function ClienteObrigado() {
   );
 }
 
+/* ============================================================
+   ★★ VERSÕES DESKTOP — Portal do cliente online ★★
+   ============================================================ */
+
+function ClienteTrackingDesktop() {
+  const steps = [
+    { ico: "📦", title: "Pedido recebido",                       when: "15/05 · 09:42",   done: true,  active: false },
+    { ico: "🏭", title: "Separação no centro de distribuição",   when: "15/05 · 11:14",   done: true,  active: false },
+    { ico: "🚚", title: "Saiu para entrega",                     when: "Hoje · 13:20",    done: true,  active: false },
+    { ico: "📍", title: "Está quase aí!",                        when: "Chega em ~ 14 min", done: false, active: true  },
+    { ico: "✅", title: "Entregue na sua casa",                  when: "Logo logo",       done: false, active: false },
+    { ico: "🔧", title: "Montagem agendada",                     when: "Amanhã · 10h–12h", done: false, active: false, future: true },
+  ];
+
+  return (
+    <div className="cd-page">
+      <header className="cd-topbar">
+        <div className="cd-wrap cd-topbar-inner">
+          <img src="assets/logo-color.png" alt="Divan Móveis" className="cd-logo" />
+          <div className="cd-topbar-right">
+            <div className="cd-order-chip">
+              <span className="cd-order-lbl">Pedido</span>
+              <strong>#DM-2451</strong>
+            </div>
+            <a href="#wpp" className="cd-wpp">
+              <span className="cd-wpp-ico">💬</span>
+              <span>Falar com a Divan</span>
+            </a>
+          </div>
+        </div>
+      </header>
+
+      <section className="cd-hero">
+        <div className="cd-wrap cd-hero-inner">
+          <div className="cd-hero-text">
+            <div className="cd-eyebrow">Acompanhe sua entrega ao vivo</div>
+            <h1>Oi, dona Maria! <span className="cd-wave">👋</span></h1>
+            <p>Seu sofá já está a caminho — chega em <strong>~ 14 minutinhos</strong>. Pode ficar tranquila aí, o seu Carlos está com tudo.</p>
+            <div className="cd-eta-strip">
+              <div className="cd-eta">
+                <span className="cd-eta-lbl">Distância</span>
+                <strong>2,4 km</strong>
+              </div>
+              <span className="cd-eta-sep" />
+              <div className="cd-eta">
+                <span className="cd-eta-lbl">Tempo até chegar</span>
+                <strong>~ 14 min</strong>
+              </div>
+              <span className="cd-eta-sep" />
+              <div className="cd-eta">
+                <span className="cd-eta-lbl">Próxima fase</span>
+                <strong>Montagem amanhã</strong>
+              </div>
+            </div>
+          </div>
+          <div className="cd-hero-map">
+            <div className="cd-map-bg">
+              <svg viewBox="0 0 100 60" preserveAspectRatio="none" style={{ position:"absolute", inset:0, width:"100%", height:"100%" }}>
+                <path d="M 0 30 Q 30 22, 50 30 T 100 28" fill="none" stroke="rgba(255,255,255,0.45)" strokeWidth="2.5" strokeDasharray="4 3" strokeLinecap="round"/>
+                <path d="M 15 0 Q 30 30, 25 60" fill="none" stroke="rgba(255,255,255,0.18)" strokeWidth="1.5"/>
+                <path d="M 70 0 Q 60 30, 80 60" fill="none" stroke="rgba(255,255,255,0.18)" strokeWidth="1.5"/>
+              </svg>
+              <span className="cd-map-truck">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M1 3h15v13H1z"/><path d="M16 8h4l3 3v5h-7V8z"/></svg>
+              </span>
+              <span className="cd-map-home">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3l9 8h-3v9h-5v-6h-2v6H6v-9H3z"/></svg>
+              </span>
+              <span className="cd-map-label">Vila Mariana · São Paulo</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <main className="cd-wrap cd-main">
+        {/* coluna timeline */}
+        <section className="cd-card cd-timeline-card">
+          <header className="cd-card-head">
+            <h2>Sua jornada Divan</h2>
+            <p>Cada etapa registrada com horário. Atualizamos em tempo real.</p>
+          </header>
+          <div className="cd-tl">
+            {steps.map((s, i) => (
+              <div key={i} className={`cd-tl-step ${s.done ? "done" : ""} ${s.active ? "active" : ""} ${s.future ? "future" : ""}`}>
+                <div className="cd-tl-rail">
+                  <div className="cd-tl-dot">
+                    {s.done && (
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    )}
+                    {s.active && <span className="cd-tl-pulse" />}
+                  </div>
+                  {i < steps.length - 1 && <div className="cd-tl-line" />}
+                </div>
+                <div className="cd-tl-content">
+                  <div className="cd-tl-title"><span className="cd-tl-emoji">{s.ico}</span>{s.title}</div>
+                  <div className="cd-tl-when">{s.when}</div>
+                  {s.active && (
+                    <div className="cd-tl-extra">
+                      <strong>Seu Carlos está chegando</strong>
+                      Acompanhe pelo mapa acima · vamos te avisar de novo quando estiver na portaria
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* coluna lateral */}
+        <aside className="cd-side">
+          <div className="cd-card cd-person">
+            <div className="cd-person-head">
+              <span className="cd-person-tag">Quem vai te entregar</span>
+            </div>
+            <div className="cd-person-row">
+              <div className="cd-avatar mot">CM</div>
+              <div className="cd-person-info">
+                <div className="cd-person-nm">Carlos Marques</div>
+                <div className="cd-person-meta">Frota Divan · placa FXR-2A47</div>
+                <div className="cd-person-meta">★ 4,9 · 147 entregas no mês</div>
+              </div>
+              <button className="cd-call">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.37 1.9.72 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0 1 22 16.92z"/></svg>
+              </button>
+            </div>
+            <div className="cd-person-row mont">
+              <div className="cd-avatar mont">FT</div>
+              <div className="cd-person-info">
+                <div className="cd-person-nm">Felipe Tavares <span className="cd-tag-mini">amanhã</span></div>
+                <div className="cd-person-meta">Montador parceiro Divan</div>
+                <div className="cd-person-meta">★ 4,8 · especialista em estofados</div>
+              </div>
+            </div>
+          </div>
+
+          <div className="cd-card cd-order">
+            <div className="cd-card-head"><h3>Seu pedido</h3><span>#DM-2451</span></div>
+            <div className="cd-prods">
+              <div className="cd-prod">
+                <div className="cd-prod-pic" style={{ background: "linear-gradient(135deg, #FFB800, #CC5500)" }}>🛋️</div>
+                <div>
+                  <div className="cd-prod-nm">Sofá retrátil 3 lugares</div>
+                  <div className="cd-prod-meta">Cor cinza · inclui montagem</div>
+                </div>
+                <span className="cd-prod-qty">1×</span>
+              </div>
+              <div className="cd-prod">
+                <div className="cd-prod-pic" style={{ background: "linear-gradient(135deg, #F7941D, #1a1a1a)" }}>🪑</div>
+                <div>
+                  <div className="cd-prod-nm">Mesa de centro</div>
+                  <div className="cd-prod-meta">Carvalho · inclui montagem</div>
+                </div>
+                <span className="cd-prod-qty">1×</span>
+              </div>
+              <div className="cd-prod">
+                <div className="cd-prod-pic" style={{ background: "#F3F4F6", color: "#1a1a1a" }}>🛏️</div>
+                <div>
+                  <div className="cd-prod-nm">Almofadas decorativas</div>
+                  <div className="cd-prod-meta">Kit com 4 · sem montagem</div>
+                </div>
+                <span className="cd-prod-qty">4×</span>
+              </div>
+            </div>
+            <div className="cd-order-total">
+              <span>Total do pedido</span>
+              <strong>R$ 3.890,00</strong>
+            </div>
+          </div>
+        </aside>
+      </main>
+
+      <footer className="cd-foot">
+        <div className="cd-wrap cd-foot-inner">
+          <div>
+            Feito com <span style={{ color: "#FF4D00" }}>♥</span> na Divan Móveis
+            <br/><span className="cd-foot-meta">Cachoeiro de Itapemirim · ES · CNPJ 12.345.678/0001-90</span>
+          </div>
+          <div className="cd-foot-links">
+            <a href="#">Política de entrega</a>
+            <a href="#">Trocas e devoluções</a>
+            <a href="#">Suporte WhatsApp</a>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
+
+function ClienteNPSFormDesktop({ onSubmit } = {}) {
+  const [motStar, setMotStar]   = React.useState(5);
+  const [montStar, setMontStar] = React.useState(4);
+  const [score, setScore]       = React.useState(9);
+  const submit = () => { if (typeof onSubmit === "function") onSubmit({ motStar, montStar, score }); };
+
+  return (
+    <div className="cd-page">
+      <header className="cd-topbar">
+        <div className="cd-wrap cd-topbar-inner">
+          <img src="assets/logo-color.png" alt="Divan Móveis" className="cd-logo" />
+          <div className="cd-order-chip"><span className="cd-order-lbl">Pedido</span><strong>#DM-2451</strong></div>
+        </div>
+      </header>
+
+      <section className="cd-hero light">
+        <div className="cd-wrap cd-hero-narrow">
+          <div className="cd-eyebrow">Avaliação carinhosa</div>
+          <h1>E aí, dona Maria — gostou da experiência? 💛</h1>
+          <p>O seu feedback chega direto pra nossa equipe. A gente lê tudo — é o que faz a Divan ficar cada dia melhor.</p>
+        </div>
+      </section>
+
+      <main className="cd-wrap cd-nps-main">
+        <div className="cd-nps-grid">
+          <div className="cd-card cd-rate">
+            <div className="cd-rate-head">
+              <div className="cd-avatar mot lg">CM</div>
+              <div>
+                <span className="cd-rate-role">Motorista</span>
+                <h3>Carlos Marques</h3>
+                <p>147 entregas · ★ 4,9 médio</p>
+              </div>
+            </div>
+            <p className="cd-rate-q">Foi pontual? Cuidou bem dos produtos? Tratou bem você?</p>
+            <div className="cd-stars-lg">
+              {[1,2,3,4,5].map(n => (
+                <span key={n} className={`cd-star ${n <= motStar ? "on" : ""}`} onClick={() => setMotStar(n)}>★</span>
+              ))}
+            </div>
+          </div>
+
+          <div className="cd-card cd-rate">
+            <div className="cd-rate-head">
+              <div className="cd-avatar mont lg">FT</div>
+              <div>
+                <span className="cd-rate-role">Montador</span>
+                <h3>Felipe Tavares</h3>
+                <p>54 montagens · MEI · ★ 4,8 médio</p>
+              </div>
+            </div>
+            <p className="cd-rate-q">Montou com capricho? Deixou seu espaço limpo no fim?</p>
+            <div className="cd-stars-lg">
+              {[1,2,3,4,5].map(n => (
+                <span key={n} className={`cd-star ${n <= montStar ? "on" : ""}`} onClick={() => setMontStar(n)}>★</span>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="cd-card cd-nps-bigq">
+          <h3>Numa escala de 0 a 10, indicaria a Divan pra alguém?</h3>
+          <p>Quanto maior a nota, mais a gente sabe que tá no caminho certo.</p>
+          <div className="cd-nps-strip">
+            {[0,1,2,3,4,5,6,7,8,9,10].map(n => {
+              const cls = n <= 6 ? "detrator" : n <= 8 ? "neutro" : "promotor";
+              return (
+                <div key={n} className={`cd-nps-cell ${cls} ${score === n ? "selected" : ""}`} onClick={() => setScore(n)}>{n}</div>
+              );
+            })}
+          </div>
+          <div className="cd-nps-scale">
+            <span>Não indicaria</span>
+            <span>Com certeza</span>
+          </div>
+        </div>
+
+        <div className="cd-card cd-nps-msg">
+          <h3>Quer deixar um recadinho? <span>(opcional, mas a gente lê tudo)</span></h3>
+          <textarea placeholder="Conta pra gente como foi…" rows={4} />
+          <button className="cd-btn" onClick={submit}>
+            Enviar avaliação
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+        </div>
+      </main>
+
+      <footer className="cd-foot">
+        <div className="cd-wrap cd-foot-inner">
+          <div>Feito com <span style={{ color: "#FF4D00" }}>♥</span> na Divan Móveis · Cachoeiro de Itapemirim · ES</div>
+        </div>
+      </footer>
+    </div>
+  );
+}
+
+function ClienteObrigadoDesktop() {
+  return (
+    <div className="cd-page">
+      <header className="cd-topbar">
+        <div className="cd-wrap cd-topbar-inner">
+          <img src="assets/logo-color.png" alt="Divan Móveis" className="cd-logo" />
+        </div>
+      </header>
+
+      <section className="cd-thx-hero">
+        <div className="cd-thx-burst"><span /><span /><span /></div>
+        <div className="cd-thx-icon">💛</div>
+        <h1>Muito obrigado, dona Maria!</h1>
+        <p>Sua avaliação chegou direitinho aqui. A gente lê uma a uma — é assim que a Divan vai ficando cada dia melhor pra você.</p>
+      </section>
+
+      <main className="cd-wrap cd-thx-main">
+        <div className="cd-thx-grid">
+          <div className="cd-card">
+            <div className="cd-card-head"><h3>Sua avaliação</h3><span>Registrada hoje · 14:32</span></div>
+            <div className="cd-thx-row">
+              <div className="cd-avatar mot sm">CM</div>
+              <div className="cd-thx-info">
+                <strong>Carlos Marques</strong>
+                <span>Motorista</span>
+              </div>
+              <span className="cd-thx-stars">★★★★★</span>
+            </div>
+            <div className="cd-thx-row">
+              <div className="cd-avatar mont sm">FT</div>
+              <div className="cd-thx-info">
+                <strong>Felipe Tavares</strong>
+                <span>Montador</span>
+              </div>
+              <span className="cd-thx-stars">★★★★☆</span>
+            </div>
+            <div className="cd-thx-row total">
+              <div className="cd-thx-info">
+                <strong>Indicaria a Divan</strong>
+                <span>Net Promoter Score</span>
+              </div>
+              <span className="cd-thx-nps">9 / 10</span>
+            </div>
+          </div>
+
+          <div className="cd-card cd-cupom">
+            <div className="cd-cupom-ico">🎁</div>
+            <div className="cd-cupom-tag">Um agrado pra você</div>
+            <div className="cd-cupom-code">OBRIGADADA10</div>
+            <p>
+              <strong>10% de desconto</strong> na sua próxima compra na Divan.
+              Válido até <strong>30/06/2026</strong> · também enviamos por WhatsApp pra você não perder.
+            </p>
+            <button className="cd-btn outline">Copiar cupom</button>
+          </div>
+        </div>
+
+        <div className="cd-thx-help">
+          <div>
+            <strong>Algo não saiu como esperado?</strong>
+            <p>Conta pra gente o que aconteceu — a Divan resolve.</p>
+          </div>
+          <a href="#wpp" className="cd-btn">
+            Falar com a Divan no WhatsApp
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+      </main>
+
+      <footer className="cd-foot">
+        <div className="cd-wrap cd-foot-inner">
+          <div>Feito com <span style={{ color: "#FF4D00" }}>♥</span> na Divan Móveis · Cachoeiro de Itapemirim · ES</div>
+        </div>
+      </footer>
+    </div>
+  );
+}
+
 window.ClienteNPSForm = ClienteNPSForm;
 window.AdminNPS = AdminNPS;
 window.ClienteTracking = ClienteTracking;
 window.ClienteObrigado = ClienteObrigado;
+window.ClienteTrackingDesktop = ClienteTrackingDesktop;
+window.ClienteNPSFormDesktop = ClienteNPSFormDesktop;
+window.ClienteObrigadoDesktop = ClienteObrigadoDesktop;

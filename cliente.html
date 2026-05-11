@@ -11,7 +11,8 @@
 <link rel="stylesheet" href="design-system.css?v=10" />
 <link rel="stylesheet" href="extras-admin.css?v=10" />
 <link rel="stylesheet" href="extras-motorista.css?v=10" />
-<link rel="stylesheet" href="extras-nps.css?v=6" />
+<link rel="stylesheet" href="extras-nps.css?v=11" />
+<link rel="stylesheet" href="extras-cliente-desktop.css?v=1" />
 <link rel="stylesheet" href="hub-button.css?v=4" />
 <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
@@ -24,7 +25,7 @@
   <span class="label-hover">Voltar</span>
 </a>
 <div id="root"></div>
-<script type="text/babel" src="nps-screens.jsx?v=6"></script>
+<script type="text/babel" src="nps-screens.jsx?v=11"></script>
 <script type="text/babel">
 const { useState } = React;
 
@@ -48,33 +49,61 @@ const VIEWS = {
 
 function ClienteShowcase() {
   const [view, setView] = useState("tracking");
+  const [device, setDevice] = useState("online"); // "online" (desktop) | "app" (mobile)
   const meta = VIEWS[view];
 
+  let Comp;
+  if (device === "online") {
+    if (view === "tracking") Comp = <ClienteTrackingDesktop />;
+    if (view === "nps")      Comp = <ClienteNPSFormDesktop onSubmit={() => setView("obrigado")} />;
+    if (view === "obrigado") Comp = <ClienteObrigadoDesktop />;
+  } else {
+    if (view === "tracking") Comp = <ClienteTracking />;
+    if (view === "nps")      Comp = <ClienteNPSForm onSubmit={() => setView("obrigado")} />;
+    if (view === "obrigado") Comp = <ClienteObrigado />;
+  }
+
   return (
-    <div className="cli-showcase">
+    <div className={`cli-showcase ${device === "online" ? "online-mode" : ""}`}>
       <div className="cli-toggle-bar">
         <div className="cli-toggle-meta">
           <div className="cli-toggle-tag">Jornada do Cliente</div>
           <div className="cli-toggle-h">{meta.h}</div>
           <div className="cli-toggle-sub">{meta.sub}</div>
         </div>
-        <div className="cli-toggle">
-          {Object.entries(VIEWS).map(([id, v]) => (
+        <div className="cli-toggles">
+          <div className="cli-toggle">
+            {Object.entries(VIEWS).map(([id, v]) => (
+              <button
+                key={id}
+                className={view === id ? `on ${id}` : ""}
+                onClick={() => setView(id)}
+              >
+                {v.label}
+              </button>
+            ))}
+          </div>
+          <div className="cli-device-toggle">
             <button
-              key={id}
-              className={view === id ? `on ${id}` : ""}
-              onClick={() => setView(id)}
+              className={device === "online" ? "on" : ""}
+              onClick={() => setDevice("online")}
+              title="Versão online (desktop)"
             >
-              {v.label}
+              🖥️ Online
             </button>
-          ))}
+            <button
+              className={device === "app" ? "on" : ""}
+              onClick={() => setDevice("app")}
+              title="App mobile (link WhatsApp no celular)"
+            >
+              📱 App mobile
+            </button>
+          </div>
         </div>
       </div>
 
-      <div className="cli-stage">
-        {view === "tracking" && <ClienteTracking />}
-        {view === "nps"      && <ClienteNPSForm onSubmit={() => setView("obrigado")} />}
-        {view === "obrigado" && <ClienteObrigado />}
+      <div className={`cli-stage ${device === "online" ? "online" : "mobile"}`}>
+        {Comp}
       </div>
     </div>
   );
