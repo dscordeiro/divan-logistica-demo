@@ -258,5 +258,177 @@ function TeamRow({ av, nm, score, runs, mont }) {
   );
 }
 
+/* ============================================================
+   CLIENTE · TRACKING AO VIVO
+   Timeline de status + ETA + motorista + pedido
+   ============================================================ */
+function ClienteTracking() {
+  // step atual: 0..5 — 3 = "A caminho de você"
+  const [activeStep] = React.useState(3);
+
+  const steps = [
+    { id: 0, ico: "📦", title: "Pedido recebido",        when: "15/05 · 09:42", done: true,  active: false },
+    { id: 1, ico: "🏭", title: "Em separação",            when: "15/05 · 11:14", done: true,  active: false },
+    { id: 2, ico: "🚚", title: "Saiu para entrega",       when: "Hoje · 13:20",  done: true,  active: false },
+    { id: 3, ico: "📍", title: "A caminho de você",       when: "ETA ~ 14 min",  done: false, active: true  },
+    { id: 4, ico: "✅", title: "Entregue",                when: "Aguardando",    done: false, active: false },
+    { id: 5, ico: "🔧", title: "Montagem agendada",       when: "Amanhã · 10–12h", done: false, active: false, future: true },
+  ];
+
+  return (
+    <div className="phone-frame">
+      <div className="phone-screen">
+        <div className="phone-status" style={{ color: "#fff", zIndex: 6 }}>
+          <span>9:41</span>
+          <div className="dots"><span></span><span></span><span></span></div>
+          <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
+            <svg width="16" height="11" viewBox="0 0 17 11" fill="currentColor"><rect y="6" width="3" height="5" rx="0.5"/><rect x="4.5" y="3.5" width="3" height="7.5" rx="0.5"/><rect x="9" y="1" width="3" height="10" rx="0.5"/><rect x="13.5" width="3" height="11" rx="0.5"/></svg>
+            <div className="battery"><div className="fill"></div></div>
+          </div>
+        </div>
+
+        <div className="track-screen">
+          {/* Header com gradiente da marca */}
+          <div className="track-hero">
+            <div className="track-brand">
+              <div className="logo-d">d</div>
+              <div>
+                <div className="track-tag">Acompanhe sua entrega</div>
+                <div className="track-order">Pedido #DM-2451</div>
+              </div>
+            </div>
+            <h1 className="track-title">Olá, Maria! 👋</h1>
+            <p className="track-sub">Seu sofá retrátil está quase aí — ETA <strong>~ 14 min</strong>.</p>
+
+            {/* Mini-mapa do motorista em tempo real */}
+            <div className="track-map">
+              <div className="track-map-bg">
+                <svg viewBox="0 0 100 60" preserveAspectRatio="none" style={{ position:"absolute", inset:0, width:"100%", height:"100%" }}>
+                  <path d="M 0 30 Q 30 22, 50 30 T 100 28" fill="none" stroke="rgba(255,255,255,0.45)" strokeWidth="2.5" strokeDasharray="4 3" strokeLinecap="round"/>
+                  <path d="M 15 0 Q 30 30, 25 60" fill="none" stroke="rgba(255,255,255,0.18)" strokeWidth="1.5"/>
+                  <path d="M 70 0 Q 60 30, 80 60" fill="none" stroke="rgba(255,255,255,0.18)" strokeWidth="1.5"/>
+                </svg>
+                <span className="map-pin truck">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M1 3h15v13H1z"/><path d="M16 8h4l3 3v5h-7V8z"/></svg>
+                </span>
+                <span className="map-pin home">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3l9 8h-3v9h-5v-6h-2v6H6v-9H3z"/></svg>
+                </span>
+                <span className="map-label">2,4 km · 14 min</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Timeline de status */}
+          <div className="track-body">
+            <div className="timeline">
+              {steps.map((s, i) => (
+                <div
+                  key={s.id}
+                  className={`tl-step ${s.done ? "done" : ""} ${s.active ? "active" : ""} ${s.future ? "future" : ""}`}
+                >
+                  <div className="tl-rail">
+                    <div className="tl-dot">
+                      {s.done ? (
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                      ) : s.active ? (
+                        <span className="tl-pulse" />
+                      ) : null}
+                    </div>
+                    {i < steps.length - 1 && <div className="tl-line" />}
+                  </div>
+                  <div className="tl-content">
+                    <div className="tl-title">
+                      <span className="tl-emoji">{s.ico}</span>
+                      {s.title}
+                    </div>
+                    <div className="tl-when">{s.when}</div>
+                    {s.active && (
+                      <div className="tl-extra">
+                        Em direção ao seu endereço · acompanhe pelo mapa acima
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Card motorista */}
+            <div className="track-people">
+              <div className="track-person mot">
+                <div className="av">CM</div>
+                <div className="info">
+                  <div className="role">Seu motorista</div>
+                  <div className="nm">Carlos Marques</div>
+                  <div className="meta">Frota Divan · Placa FXR-2A47</div>
+                </div>
+                <button className="call-btn">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.37 1.9.72 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0 1 22 16.92z"/></svg>
+                </button>
+              </div>
+              <div className="track-person mont">
+                <div className="av">FT</div>
+                <div className="info">
+                  <div className="role">Seu montador (amanhã)</div>
+                  <div className="nm">Felipe Tavares</div>
+                  <div className="meta">Montador parceiro · MEI</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Card pedido */}
+            <div className="track-order-card">
+              <div className="track-order-head">
+                <strong>Seu pedido</strong>
+                <span>#DM-2451</span>
+              </div>
+              <div className="track-prods">
+                <div className="track-prod">
+                  <div className="pic" style={{ background: "linear-gradient(135deg, #FFB800 10%, #CC5500)" }}>🛋️</div>
+                  <div className="info">
+                    <div className="nm">Sofá retrátil 3 lugares · Cinza</div>
+                    <div className="meta">1× · Inclui montagem</div>
+                  </div>
+                </div>
+                <div className="track-prod">
+                  <div className="pic" style={{ background: "linear-gradient(135deg, #F7941D 10%, #1a1a1a)" }}>🪑</div>
+                  <div className="info">
+                    <div className="nm">Mesa de centro · Carvalho</div>
+                    <div className="meta">1× · Inclui montagem</div>
+                  </div>
+                </div>
+                <div className="track-prod">
+                  <div className="pic" style={{ background: "#F3F4F6", color: "#1a1a1a" }}>🛏️</div>
+                  <div className="info">
+                    <div className="nm">Almofadas decorativas</div>
+                    <div className="meta">4× · Sem montagem</div>
+                  </div>
+                </div>
+              </div>
+              <div className="track-total">
+                <span>Total</span>
+                <strong>R$ 3.890,00</strong>
+              </div>
+            </div>
+
+            {/* Suporte */}
+            <div className="track-help">
+              <div className="track-help-ico">💬</div>
+              <div>
+                <strong>Precisa de ajuda?</strong>
+                <p>Fale com a Divan no WhatsApp</p>
+              </div>
+              <button className="track-help-btn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 window.ClienteNPSForm = ClienteNPSForm;
 window.AdminNPS = AdminNPS;
+window.ClienteTracking = ClienteTracking;

@@ -11,8 +11,8 @@
 <link rel="stylesheet" href="design-system.css" />
 <link rel="stylesheet" href="extras-admin.css" />
 <link rel="stylesheet" href="extras-motorista.css" />
-<link rel="stylesheet" href="extras-nps.css" />
-<link rel="stylesheet" href="hub-button.css" />
+<link rel="stylesheet" href="extras-nps.css?v=2" />
+<link rel="stylesheet" href="hub-button.css?v=2" />
 <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
@@ -25,13 +25,27 @@
 </a>
 <div id="root"></div>
 <script type="text/babel" src="design-canvas.jsx"></script>
-<script type="text/babel" src="nps-screens.jsx"></script>
+<script type="text/babel" src="nps-screens.jsx?v=2"></script>
 <script type="text/babel">
 function App() {
   return (
     <DesignCanvas>
-      <DCSection id="cliente-nps" title="Avaliação do Cliente" subtitle="Formulário enviado por WhatsApp após a montagem · estrelas separadas para motorista e montador + NPS 0-10">
-        <DCArtboard id="nps-form" label="Formulário NPS · 390 × 844" width={390} height={844}>
+      <DCSection
+        id="cliente-tracking"
+        title="Cliente — Acompanhamento ao vivo"
+        subtitle="Tela aberta pelo cliente via link WhatsApp · timeline de status, mapa do motorista, dados do pedido e contato de suporte"
+      >
+        <DCArtboard id="track-live" label="Acompanhamento · 390 × 844" width={390} height={844}>
+          <ClienteTracking />
+        </DCArtboard>
+      </DCSection>
+
+      <DCSection
+        id="cliente-nps"
+        title="Cliente — Avaliação após a montagem"
+        subtitle="Formulário enviado por WhatsApp · estrelas separadas para motorista e montador + NPS 0–10 + comentário"
+      >
+        <DCArtboard id="nps-form" label="Avaliação NPS · 390 × 844" width={390} height={844}>
           <ClienteNPSForm />
         </DCArtboard>
       </DCSection>
