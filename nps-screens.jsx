@@ -1,9 +1,10 @@
 // nps-screens.jsx — Cliente NPS Form + Admin NPS Dashboard
 
-function ClienteNPSForm() {
+function ClienteNPSForm({ onSubmit } = {}) {
   const [motStar, setMotStar] = React.useState(5);
   const [montStar, setMontStar] = React.useState(4);
   const [score, setScore] = React.useState(9);
+  const handleSubmit = () => { if (typeof onSubmit === "function") onSubmit({ motStar, montStar, score }); };
 
   return (
     <div className="phone-frame">
@@ -19,9 +20,9 @@ function ClienteNPSForm() {
 
         <div className="nps-screen">
           <div className="nps-hero">
-            <div className="logo">d</div>
-            <h1>Como foi sua experiência?</h1>
-            <p>Pedido #DM-2451 · entregue hoje</p>
+            <img src="assets/logo-white.png" alt="Divan Móveis" className="nps-hero-logo" />
+            <h1>E aí, gostou da experiência?</h1>
+            <p>Pedido #DM-2451 · entregue e montado hoje</p>
           </div>
 
           <div className="nps-body">
@@ -33,7 +34,7 @@ function ClienteNPSForm() {
                   <div className="nm">Carlos Marques</div>
                 </div>
               </div>
-              <p className="q">Como foi a entrega? Pontualidade, cuidado com os produtos e atendimento.</p>
+              <p className="q">Foi pontual? Cuidou bem dos produtos? Tratou bem você?</p>
               <div className="stars">
                 {[1,2,3,4,5].map(n => (
                   <span key={n} className={`star ${n <= motStar ? "on" : ""}`} onClick={() => setMotStar(n)}>★</span>
@@ -49,7 +50,7 @@ function ClienteNPSForm() {
                   <div className="nm">Felipe Tavares</div>
                 </div>
               </div>
-              <p className="q">Como foi a montagem? Capricho, organização e cuidado com o espaço.</p>
+              <p className="q">Montou com capricho? Deixou seu espaço limpo no fim?</p>
               <div className="stars">
                 {[1,2,3,4,5].map(n => (
                   <span key={n} className={`star ${n <= montStar ? "on" : ""}`} onClick={() => setMontStar(n)}>★</span>
@@ -58,7 +59,7 @@ function ClienteNPSForm() {
             </div>
 
             <div className="rating-card">
-              <p className="q" style={{ marginBottom: 12, fontWeight: 600 }}>De 0 a 10, quanto você indicaria a Divan a um amigo?</p>
+              <p className="q" style={{ marginBottom: 12, fontWeight: 600 }}>Numa escala de 0 a 10, indicaria a Divan pra alguém?</p>
               <div className="nps-strip">
                 {[0,1,2,3,4,5,6,7,8,9,10].map(n => {
                   const cls = n <= 6 ? "detrator" : n <= 8 ? "neutro" : "promotor";
@@ -74,17 +75,17 @@ function ClienteNPSForm() {
             </div>
 
             <div className="rating-card">
-              <p className="q" style={{ marginBottom: 10, fontWeight: 600 }}>Quer contar algo mais? <span style={{ color: "var(--color-text-secondary)", fontWeight: 400 }}>(opcional)</span></p>
+              <p className="q" style={{ marginBottom: 10, fontWeight: 600 }}>Quer deixar um recadinho? <span style={{ color: "var(--color-text-secondary)", fontWeight: 400 }}>(opcional, mas a gente lê tudo)</span></p>
               <textarea
                 className="input"
-                placeholder="Conte como foi sua experiência…"
+                placeholder="Conta pra gente como foi…"
                 style={{ width: "100%", minHeight: 80, fontSize: 14, resize: "none" }}
               />
             </div>
           </div>
 
           <div className="nps-foot">
-            <button className="btn btn-primary">Enviar avaliação</button>
+            <button className="btn btn-primary" onClick={handleSubmit}>Enviar avaliação</button>
           </div>
         </div>
       </div>
@@ -267,12 +268,12 @@ function ClienteTracking() {
   const [activeStep] = React.useState(3);
 
   const steps = [
-    { id: 0, ico: "📦", title: "Pedido recebido",        when: "15/05 · 09:42", done: true,  active: false },
-    { id: 1, ico: "🏭", title: "Em separação",            when: "15/05 · 11:14", done: true,  active: false },
-    { id: 2, ico: "🚚", title: "Saiu para entrega",       when: "Hoje · 13:20",  done: true,  active: false },
-    { id: 3, ico: "📍", title: "A caminho de você",       when: "ETA ~ 14 min",  done: false, active: true  },
-    { id: 4, ico: "✅", title: "Entregue",                when: "Aguardando",    done: false, active: false },
-    { id: 5, ico: "🔧", title: "Montagem agendada",       when: "Amanhã · 10–12h", done: false, active: false, future: true },
+    { id: 0, ico: "📦", title: "Pedido recebido",                 when: "15/05 · 09:42",   done: true,  active: false },
+    { id: 1, ico: "🏭", title: "Separação no centro de distribuição", when: "15/05 · 11:14", done: true,  active: false },
+    { id: 2, ico: "🚚", title: "Saiu para entrega",                when: "Hoje · 13:20",    done: true,  active: false },
+    { id: 3, ico: "📍", title: "Está quase aí!",                   when: "Chega em ~ 14 min", done: false, active: true  },
+    { id: 4, ico: "✅", title: "Entregue na sua casa",             when: "Logo logo",       done: false, active: false },
+    { id: 5, ico: "🔧", title: "Montagem agendada",                when: "Amanhã · 10h–12h", done: false, active: false, future: true },
   ];
 
   return (
@@ -291,14 +292,14 @@ function ClienteTracking() {
           {/* Header com gradiente da marca */}
           <div className="track-hero">
             <div className="track-brand">
-              <div className="logo-d">d</div>
-              <div>
+              <img src="assets/logo-white.png" alt="Divan Móveis" className="track-logo" />
+              <div className="track-brand-meta">
                 <div className="track-tag">Acompanhe sua entrega</div>
                 <div className="track-order">Pedido #DM-2451</div>
               </div>
             </div>
-            <h1 className="track-title">Olá, Maria! 👋</h1>
-            <p className="track-sub">Seu sofá retrátil está quase aí — ETA <strong>~ 14 min</strong>.</p>
+            <h1 className="track-title">Oi, dona Maria! 👋</h1>
+            <p className="track-sub">Seu sofá já está a caminho — chega em <strong>~ 14 minutinhos</strong>.</p>
 
             {/* Mini-mapa do motorista em tempo real */}
             <div className="track-map">
@@ -345,7 +346,7 @@ function ClienteTracking() {
                     <div className="tl-when">{s.when}</div>
                     {s.active && (
                       <div className="tl-extra">
-                        Em direção ao seu endereço · acompanhe pelo mapa acima
+                        Seu Carlos está a caminho · acompanhe pelo mapa logo acima
                       </div>
                     )}
                   </div>
@@ -429,6 +430,78 @@ function ClienteTracking() {
   );
 }
 
+/* ============================================================
+   CLIENTE · OBRIGADO PELO FEEDBACK (pós-NPS)
+   ============================================================ */
+function ClienteObrigado() {
+  return (
+    <div className="phone-frame">
+      <div className="phone-screen">
+        <div className="phone-status" style={{ color: "#fff", zIndex: 6 }}>
+          <span>9:41</span>
+          <div className="dots"><span></span><span></span><span></span></div>
+          <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
+            <svg width="16" height="11" viewBox="0 0 17 11" fill="currentColor"><rect y="6" width="3" height="5" rx="0.5"/><rect x="4.5" y="3.5" width="3" height="7.5" rx="0.5"/><rect x="9" y="1" width="3" height="10" rx="0.5"/><rect x="13.5" width="3" height="11" rx="0.5"/></svg>
+            <div className="battery"><div className="fill"></div></div>
+          </div>
+        </div>
+
+        <div className="thx-screen">
+          <div className="thx-hero">
+            <img src="assets/logo-color.png" alt="Divan Móveis" className="thx-logo" />
+            <div className="thx-heart">💛</div>
+          </div>
+          <h1 className="thx-h1">Muito obrigado, dona Maria!</h1>
+          <p className="thx-p">
+            Sua avaliação chegou direitinho aqui. A gente lê uma a uma — é assim
+            que a Divan vai ficando cada dia melhor pra você.
+          </p>
+
+          <div className="thx-card">
+            <div className="thx-card-head">Sua avaliação</div>
+            <div className="thx-row">
+              <span>Carlos Marques (entrega)</span>
+              <span className="stars">★★★★★</span>
+            </div>
+            <div className="thx-row">
+              <span>Felipe Tavares (montagem)</span>
+              <span className="stars">★★★★☆</span>
+            </div>
+            <div className="thx-row">
+              <span>Indicaria a Divan</span>
+              <strong className="thx-nps">9 / 10</strong>
+            </div>
+          </div>
+
+          <div className="thx-bonus">
+            <div className="thx-bonus-ico">🎁</div>
+            <div>
+              <strong>Um agrado pra você</strong>
+              <p>
+                Cupom <code>OBRIGADADA10</code> com 10% na próxima compra.
+                Valor até 30/06 · enviamos também por WhatsApp.
+              </p>
+            </div>
+          </div>
+
+          <div className="thx-help">
+            Algo não saiu como esperado?
+            <button className="thx-help-btn">
+              Falar com a Divan
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </button>
+          </div>
+
+          <div className="thx-foot">
+            Feito com <span style={{ color: "#FF4D00" }}>♥</span> na Divan Móveis · Cachoeiro de Itapemirim · ES
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 window.ClienteNPSForm = ClienteNPSForm;
 window.AdminNPS = AdminNPS;
 window.ClienteTracking = ClienteTracking;
+window.ClienteObrigado = ClienteObrigado;

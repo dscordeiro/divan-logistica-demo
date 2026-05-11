@@ -22,14 +22,14 @@ function AdminLogin() {
         <div>
           <h1 className="login-headline">Logística que<br/>funciona de coração.</h1>
           <p className="login-tagline">
-            Entre com o seu acesso Divan. Operadores vão para o painel,
-            motoristas e montadores para sua agenda do dia.
+            Bem-vindo de volta! Entre com seu acesso Divan e o sistema te leva
+            direto pra onde você precisa estar.
           </p>
 
           <div className="login-roles">
             <div className="role-chip">
               <span className="dot" style={{ background: "#FF8A50" }}></span>
-              Operador
+              Operação
             </div>
             <div className="role-chip">
               <span className="dot" style={{ background: "#FF4D00" }}></span>
@@ -59,7 +59,7 @@ function AdminLogin() {
           <div>
             <h2>Entrar no sistema</h2>
           </div>
-          <p className="sub">Use suas credenciais Divan — o sistema te leva para a sua área.</p>
+          <p className="sub">Acesse com suas credenciais Divan pra começar o dia.</p>
 
           <div className="login-fields">
             <div className="field">

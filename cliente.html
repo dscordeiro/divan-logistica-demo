@@ -11,8 +11,8 @@
 <link rel="stylesheet" href="design-system.css" />
 <link rel="stylesheet" href="extras-admin.css" />
 <link rel="stylesheet" href="extras-motorista.css" />
-<link rel="stylesheet" href="extras-nps.css?v=4" />
-<link rel="stylesheet" href="hub-button.css?v=3" />
+<link rel="stylesheet" href="extras-nps.css?v=6" />
+<link rel="stylesheet" href="hub-button.css?v=4" />
 <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
@@ -24,45 +24,57 @@
   <span class="label-hover">Voltar</span>
 </a>
 <div id="root"></div>
-<script type="text/babel" src="nps-screens.jsx?v=4"></script>
+<script type="text/babel" src="nps-screens.jsx?v=6"></script>
 <script type="text/babel">
 const { useState } = React;
 
+const VIEWS = {
+  tracking: {
+    label: "🚚 Acompanhamento",
+    h:      "Acompanhamento durante a entrega",
+    sub:    "Link recebido por WhatsApp · acompanhamento em tempo real",
+  },
+  nps: {
+    label: "⭐ Avaliação NPS",
+    h:      "Avaliação após a montagem",
+    sub:    "Formulário enviado por WhatsApp depois que tudo termina",
+  },
+  obrigado: {
+    label: "💛 Obrigado",
+    h:      "Confirmação carinhosa após o feedback",
+    sub:    "Mostra o resumo, agradece e oferece um cupom de fidelidade",
+  },
+};
+
 function ClienteShowcase() {
   const [view, setView] = useState("tracking");
+  const meta = VIEWS[view];
 
   return (
     <div className="cli-showcase">
       <div className="cli-toggle-bar">
         <div className="cli-toggle-meta">
           <div className="cli-toggle-tag">Jornada do Cliente</div>
-          <div className="cli-toggle-h">
-            {view === "tracking" ? "Acompanhamento durante a entrega" : "Avaliação após a montagem"}
-          </div>
-          <div className="cli-toggle-sub">
-            {view === "tracking"
-              ? "Link recebido por WhatsApp · acompanhamento em tempo real"
-              : "Formulário enviado por WhatsApp após a montagem"}
-          </div>
+          <div className="cli-toggle-h">{meta.h}</div>
+          <div className="cli-toggle-sub">{meta.sub}</div>
         </div>
         <div className="cli-toggle">
-          <button
-            className={view === "tracking" ? "on tracking" : ""}
-            onClick={() => setView("tracking")}
-          >
-            🚚 Acompanhamento
-          </button>
-          <button
-            className={view === "nps" ? "on nps" : ""}
-            onClick={() => setView("nps")}
-          >
-            ⭐ Avaliação NPS
-          </button>
+          {Object.entries(VIEWS).map(([id, v]) => (
+            <button
+              key={id}
+              className={view === id ? `on ${id}` : ""}
+              onClick={() => setView(id)}
+            >
+              {v.label}
+            </button>
+          ))}
         </div>
       </div>
 
       <div className="cli-stage">
-        {view === "tracking" ? <ClienteTracking /> : <ClienteNPSForm />}
+        {view === "tracking" && <ClienteTracking />}
+        {view === "nps"      && <ClienteNPSForm onSubmit={() => setView("obrigado")} />}
+        {view === "obrigado" && <ClienteObrigado />}
       </div>
     </div>
   );

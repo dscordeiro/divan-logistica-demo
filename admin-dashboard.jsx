@@ -133,7 +133,7 @@ function AdminDashboard() {
           <div className="dash-greeting">
             <div>
               <h1>Bom dia, Daniel! ☀️</h1>
-              <p>Quarta-feira, 14 de maio · <strong>7 notas aguardam sua ação</strong></p>
+              <p>Quarta, 14 de maio · <strong>7 notas chegaram pra hoje</strong> · vamos lá</p>
             </div>
             <div style={{ display: "flex", gap: 8 }}>
               <button className="btn btn-secondary btn-sm">
@@ -154,7 +154,7 @@ function AdminDashboard() {
               iconColor="#1D4ED8" iconBg="#DBEAFE"
               label="Entregas do dia"
               value="12/20"
-              meta="meta diária"
+              meta="60% da meta de hoje"
               delta="+12%" deltaDir="up"
             />
             <KPI
@@ -162,15 +162,15 @@ function AdminDashboard() {
               iconColor="#FF4D00" iconBg="#FFE9DC" pulsing
               label="Em rota agora"
               value="6"
-              meta="motoristas ativos"
+              meta="motoristas em campo"
               delta="+2 vs ontem" deltaDir="up"
             />
             <KPI
               icon={<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>}
               iconColor="#B91C1C" iconBg="#FEE2E2"
-              label="Com problema"
+              label="Precisam atenção"
               value="3"
-              meta="exigem ação imediata"
+              meta="abrir e ver o que houve"
               delta="+1 vs ontem" deltaDir="down"
             />
             <KPI
@@ -242,8 +242,8 @@ function AdminDashboard() {
                 </div>
               </div>
               <div style={{ padding: "12px 20px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <span style={{ fontSize: 12, color: "var(--color-text-secondary)" }}>Última sync · 14:28</span>
-                <button className="btn btn-ghost btn-sm">Ver mapa completo →</button>
+                <span style={{ fontSize: 12, color: "var(--color-text-secondary)" }}>Atualizado agora há pouco</span>
+                <button className="btn btn-ghost btn-sm">Abrir mapa completo →</button>
               </div>
             </div>
           </section>

@@ -528,3 +528,112 @@
 .badge-em-montagem { background: rgba(247,168,0,0.18); color: #B45309; border-color: rgba(247,168,0,0.32); }
 .badge-disponivel  { background: #DCFCE7;            color: #166534; border-color: #BBF7D0; }
 .badge-folga       { background: #F3F4F6;            color: #6B7280; border-color: #E5E7EB; }
+
+/* ============================================================
+   RELATÓRIOS (admin)
+   ============================================================ */
+.rep-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 16px;
+}
+.rep-card {
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  padding: 20px;
+  margin-top: 16px;
+}
+.rep-grid .rep-card { margin-top: 0; }
+.rep-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.rep-card-head h3 { font-size: 15px; font-weight: 700; margin: 0; color: var(--color-text-primary); }
+.rep-card-head p { font-size: 12px; color: var(--color-text-secondary); margin: 2px 0 0; }
+
+/* Gráfico de barras (diário) */
+.rep-chart-bars {
+  display: grid;
+  grid-template-columns: repeat(28, 1fr);
+  gap: 3px;
+  align-items: flex-end;
+  height: 140px;
+  padding: 12px 0 8px;
+  border-top: 1px dashed var(--color-border);
+  border-bottom: 1px dashed var(--color-border);
+}
+.rep-chart-bars .bar-wrap {
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+}
+.rep-chart-bars .bar {
+  width: 100%;
+  border-radius: 3px 3px 0 0;
+  min-height: 3px;
+  transition: filter 0.18s;
+}
+.rep-chart-bars .bar:hover { filter: brightness(1.08); }
+.rep-chart-x {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin-top: 8px;
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Regiões */
+.rep-regions { display: flex; flex-direction: column; gap: 10px; }
+.rep-region {
+  display: grid;
+  grid-template-columns: 170px 1fr 80px;
+  align-items: center;
+  gap: 10px;
+}
+.rep-region .rg-info { display: flex; flex-direction: column; gap: 1px; }
+.rep-region .rg-nm { font-size: 13px; font-weight: 600; }
+.rep-region .rg-ent { font-size: 11px; color: var(--color-text-secondary); }
+.rep-region .rg-bar { height: 8px; background: var(--color-bg-soft); border-radius: 999px; overflow: hidden; }
+.rep-region .rg-bar-fill { height: 100%; border-radius: 999px; }
+.rep-region .rg-nps { font-size: 12px; font-weight: 700; text-align: right; }
+
+/* Ocorrências */
+.rep-occurrences { display: flex; flex-direction: column; gap: 12px; }
+.rep-occ { display: grid; grid-template-columns: 1fr 60px; align-items: center; gap: 8px; }
+.rep-occ .ro-top { grid-column: 1 / 3; display: flex; justify-content: space-between; align-items: baseline; }
+.rep-occ .ro-nm { font-size: 13px; font-weight: 600; }
+.rep-occ .ro-qty { font-size: 14px; font-weight: 700; color: var(--color-text-primary); }
+.rep-occ .ro-bar { height: 6px; background: var(--color-bg-soft); border-radius: 999px; overflow: hidden; }
+.rep-occ .ro-bar-fill { height: 100%; background: linear-gradient(90deg, #EF4444, #F7A800); border-radius: 999px; }
+.rep-occ .ro-pct { font-size: 11px; color: var(--color-text-secondary); text-align: right; }
+
+/* Financeiro */
+.rep-fin { display: flex; flex-direction: column; }
+.rep-fin .rf-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px dashed var(--color-border);
+  font-size: 13px;
+  color: var(--color-text-primary);
+}
+.rep-fin .rf-row:last-child {
+  border-bottom: 0;
+  margin-top: 8px;
+  padding-top: 14px;
+  border-top: 2px solid #1a1a1a;
+}
+.rep-fin .rf-row strong { font-size: 14px; font-weight: 700; }
+.rep-fin .rf-row strong.pos { color: #16A34A; }
+.rep-fin .rf-row.total span,
+.rep-fin .rf-row.total strong { font-size: 15px; font-weight: 800; }

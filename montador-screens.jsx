@@ -16,9 +16,9 @@ function MontadorHome() {
         <header className="mont-header">
           <div className="top-row">
             <div>
-              <div className="greet">Olá, <strong>Felipe!</strong></div>
+              <div className="greet">Olá, <strong>Felipe!</strong> 👋</div>
               <h1>3 montagens hoje</h1>
-              <div className="date">Quarta · 14 de maio</div>
+              <div className="date">Quarta · 14 de maio · dia produtivo pela frente</div>
             </div>
             <div className="av-icon">FT</div>
           </div>
@@ -201,8 +201,8 @@ function MontadorAtiva() {
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
             </div>
             <div className="txt">
-              <strong>Instruções específicas</strong>
-              Sofá retrátil deve ficar paralelo à parede com janela. Cliente solicitou kit de pés altos (incluso na caixa).
+              <strong>Recado da operação</strong>
+              Sofá deve ficar paralelo à parede da janela. A dona Maria pediu o kit de pés altos — já está na caixa.
             </div>
           </div>
         </div>
@@ -270,8 +270,8 @@ function MontadorConfirmacao() {
         <div className="confirm-body">
           {step === 1 && (
             <>
-              <h2 className="confirm-h">Foto do <span style={{ color: "#B45309" }}>antes</span></h2>
-              <p className="confirm-sub">Registre as peças e a embalagem no local antes de começar a montagem. Já capturada na entrega.</p>
+              <h2 className="confirm-h">Como o local estava <span style={{ color: "#B45309" }}>antes</span></h2>
+              <p className="confirm-sub">As peças e a embalagem na hora que você chegou — já registramos esta foto na entrega.</p>
 
               <div className="photo-frame done">
                 <div className="photo-preview">
@@ -297,8 +297,8 @@ function MontadorConfirmacao() {
 
           {step === 2 && (
             <>
-              <h2 className="confirm-h">Foto do <span style={{ color: "#16A34A" }}>depois</span></h2>
-              <p className="confirm-sub">Registre o móvel montado no local final. Foto obrigatória pro repasse ser liberado.</p>
+              <h2 className="confirm-h">Agora como ficou <span style={{ color: "#16A34A" }}>depois</span></h2>
+              <p className="confirm-sub">Tire uma foto do móvel montado no lugar definitivo. É o que libera o seu repasse.</p>
 
               <div className={`photo-frame ${afterPic ? "done" : ""}`}>
                 {!afterPic ? (
@@ -348,8 +348,8 @@ function MontadorConfirmacao() {
                   <polyline points="20 6 9 17 4 12"/>
                 </svg>
               </div>
-              <h2>Montagem concluída!</h2>
-              <p>Maria F. Souza foi notificada. O repasse de R$ 180 será creditado no próximo fechamento.</p>
+              <h2>Montagem entregue com capricho! 🔧</h2>
+              <p>A dona Maria já foi avisada. Seu repasse de R$ 180 entra no próximo fechamento, dia 16/05.</p>
 
               <div className="success-stats amber">
                 <div>

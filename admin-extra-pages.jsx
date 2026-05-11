@@ -398,6 +398,186 @@ function AdminMontadores() {
   );
 }
 
+function AdminRelatorios() {
+  const kpis = [
+    { label: "Entregas no mês",   val: "382",  sub: "+18% vs abril",  delta: "up"   },
+    { label: "Lead time médio",   val: "1,7 d", sub: "−0,4 d vs abril", delta: "up" },
+    { label: "On-time delivery",  val: "94%",  sub: "Meta: 92%",       delta: "up"   },
+    { label: "Custo por entrega", val: "R$ 38", sub: "−R$ 4 vs abril",  delta: "up"   },
+  ];
+  const regioes = [
+    { nm: "Vila Mariana",   ent: 72, nps: 9.4, color: "#22C55E" },
+    { nm: "Pinheiros",      ent: 58, nps: 9.1, color: "#22C55E" },
+    { nm: "Itaim Bibi",     ent: 45, nps: 8.8, color: "#F7A800" },
+    { nm: "Consolação",     ent: 41, nps: 9.0, color: "#22C55E" },
+    { nm: "Mooca",          ent: 38, nps: 7.6, color: "#F7A800" },
+    { nm: "Tatuapé",        ent: 32, nps: 8.4, color: "#F7A800" },
+    { nm: "Santana",        ent: 28, nps: 7.2, color: "#EF4444" },
+    { nm: "Demais bairros", ent: 68, nps: 8.5, color: "#F7A800" },
+  ];
+  const ocorrencias = [
+    { tipo: "Endereço errado",          qty: 8,  pct: 32 },
+    { tipo: "Cliente ausente",          qty: 6,  pct: 24 },
+    { tipo: "Produto avariado",         qty: 4,  pct: 16 },
+    { tipo: "Atraso na separação",      qty: 4,  pct: 16 },
+    { tipo: "Falta de pé / parafuso",   qty: 2,  pct: 8  },
+    { tipo: "Outros",                   qty: 1,  pct: 4  },
+  ];
+
+  return (
+    <main className="dash-main">
+      <header className="dash-topbar">
+        <div>
+          <div className="dash-eyebrow">Insights</div>
+          <h1 className="dash-title">Relatórios</h1>
+        </div>
+        <div className="dash-tools">
+          <div className="select-field" style={{ height: 36 }}>
+            <span style={{ fontSize: 13 }}>Maio · 2026</span>
+            <span className="chev"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <button className="btn btn-secondary btn-md">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Exportar PDF
+          </button>
+        </div>
+      </header>
+
+      <div className="dash-content">
+        <div className="dash-kpis">
+          {kpis.map(k => (
+            <div key={k.label} className="kpi">
+              <div className="kpi-label">{k.label}</div>
+              <div className="kpi-val">{k.val}</div>
+              <div className="kpi-sub" style={{ color: "#16A34A" }}>{k.sub}</div>
+            </div>
+          ))}
+        </div>
+
+        <section className="rep-grid">
+          <div className="rep-card">
+            <div className="rep-card-head">
+              <div>
+                <h3>Entregas por dia</h3>
+                <p>Últimas 4 semanas · meta diária 14</p>
+              </div>
+              <span className="chip-tab on" style={{ fontSize: 11 }}>Diário</span>
+            </div>
+            <div className="rep-chart-bars">
+              {[10, 13, 14, 12, 16, 9, 7, 12, 15, 14, 17, 13, 8, 6, 14, 16, 18, 15, 13, 9, 7, 15, 17, 16, 19, 14, 10, 8].map((v, i) => (
+                <div key={i} className="bar-wrap" title={`Dia ${i+1}: ${v} entregas`}>
+                  <div className="bar" style={{ height: `${(v / 20) * 100}%`, background: v >= 14 ? "linear-gradient(180deg, #FF4D00, #F7A800)" : v >= 10 ? "#FED7AA" : "#E5E7EB" }} />
+                </div>
+              ))}
+            </div>
+            <div className="rep-chart-x">
+              <span>S1</span><span>S2</span><span>S3</span><span>S4</span>
+            </div>
+          </div>
+
+          <div className="rep-card">
+            <div className="rep-card-head">
+              <div>
+                <h3>Top regiões do mês</h3>
+                <p>Volume + NPS médio por bairro</p>
+              </div>
+            </div>
+            <div className="rep-regions">
+              {regioes.map(r => (
+                <div key={r.nm} className="rep-region">
+                  <div className="rg-info">
+                    <span className="rg-nm">{r.nm}</span>
+                    <span className="rg-ent">{r.ent} entregas</span>
+                  </div>
+                  <div className="rg-bar"><div className="rg-bar-fill" style={{ width: `${(r.ent / 72) * 100}%`, background: `linear-gradient(90deg, ${r.color}, ${r.color}88)` }} /></div>
+                  <span className="rg-nps" style={{ color: r.color }}>NPS {r.nps.toFixed(1)}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="rep-grid">
+          <div className="rep-card">
+            <div className="rep-card-head">
+              <div>
+                <h3>Ocorrências do mês</h3>
+                <p>25 ocorrências em 382 entregas · 6,5% taxa</p>
+              </div>
+            </div>
+            <div className="rep-occurrences">
+              {ocorrencias.map(o => (
+                <div key={o.tipo} className="rep-occ">
+                  <div className="ro-top">
+                    <span className="ro-nm">{o.tipo}</span>
+                    <span className="ro-qty">{o.qty}</span>
+                  </div>
+                  <div className="ro-bar"><div className="ro-bar-fill" style={{ width: `${o.pct}%` }} /></div>
+                  <span className="ro-pct">{o.pct}%</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="rep-card">
+            <div className="rep-card-head">
+              <div>
+                <h3>Resumo financeiro</h3>
+                <p>Repasses + custo de frota</p>
+              </div>
+            </div>
+            <div className="rep-fin">
+              <div className="rf-row">
+                <span>Receita logística (faturamento)</span>
+                <strong className="pos">R$ 14.580</strong>
+              </div>
+              <div className="rf-row">
+                <span>Repasse a montadores (MEI)</span>
+                <strong>− R$ 4.380</strong>
+              </div>
+              <div className="rf-row">
+                <span>Combustível + manutenção frota</span>
+                <strong>− R$ 2.120</strong>
+              </div>
+              <div className="rf-row">
+                <span>Salários motoristas (CLT)</span>
+                <strong>− R$ 5.840</strong>
+              </div>
+              <div className="rf-row total">
+                <span>Margem operacional</span>
+                <strong className="pos">R$ 2.240 · 15%</strong>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="rep-card">
+          <div className="rep-card-head">
+            <div>
+              <h3>Ranking da equipe · maio</h3>
+              <p>Quem está fazendo a diferença esse mês</p>
+            </div>
+            <button className="btn btn-ghost btn-sm">Ver todos →</button>
+          </div>
+          <table className="data-table">
+            <thead>
+              <tr><th>Posição</th><th>Pessoa</th><th>Papel</th><th>Entregas/Montagens</th><th>NPS médio</th><th>No prazo</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong style={{ color: "#F7A800" }}>🥇 1º</strong></td><td>André Souza</td><td>Motorista</td><td>62 entregas</td><td><strong>9,7</strong></td><td>100%</td></tr>
+              <tr><td><strong style={{ color: "#9CA3AF" }}>🥈 2º</strong></td><td>Juliana Santos</td><td>Montadora</td><td>54 montagens</td><td><strong>9,5</strong></td><td>98%</td></tr>
+              <tr><td><strong style={{ color: "#CD7F32" }}>🥉 3º</strong></td><td>Carlos Moreira</td><td>Motorista</td><td>58 entregas</td><td><strong>9,3</strong></td><td>97%</td></tr>
+              <tr><td>4º</td><td>Felipe Tavares</td><td>Montador</td><td>48 montagens</td><td><strong>9,2</strong></td><td>96%</td></tr>
+              <tr><td>5º</td><td>Renata Kowalski</td><td>Motorista</td><td>51 entregas</td><td><strong>9,1</strong></td><td>95%</td></tr>
+            </tbody>
+          </table>
+        </section>
+      </div>
+    </main>
+  );
+}
+
 window.AdminMapa = AdminMapa;
 window.AdminMotoristas = AdminMotoristas;
 window.AdminMontadores = AdminMontadores;
+window.AdminRelatorios = AdminRelatorios;

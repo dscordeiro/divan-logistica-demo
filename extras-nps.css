@@ -710,6 +710,7 @@
 .cli-toggle button:hover { color: #fff; }
 .cli-toggle button.on.tracking { background: linear-gradient(135deg, #FF4D00, #F7A800); color: #fff; }
 .cli-toggle button.on.nps      { background: rgba(255,255,255,0.92); color: #1a1a1a; }
+.cli-toggle button.on.obrigado { background: linear-gradient(135deg, #FFC940, #F7A800); color: #1a1a1a; }
 
 .cli-stage {
   position: relative;
@@ -722,4 +723,175 @@
 }
 .cli-stage .phone-frame {
   /* phone-frame já tem dimensões definidas em design-system.css */
+}
+
+/* ============================================================
+   CLIENTE · OBRIGADO (pós-NPS)
+   ============================================================ */
+.thx-screen {
+  flex: 1;
+  overflow-y: auto;
+  background: linear-gradient(180deg, #FFF7F4 0%, #fff 50%);
+  padding: 28px 24px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.thx-hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+.thx-hero .logo-d {
+  width: 64px; height: 64px;
+  background: linear-gradient(135deg, #FFB800 0%, #F7941D 50%, #CC5500 100%);
+  border-radius: 18px;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800;
+  font-size: 32px;
+  color: #fff;
+  box-shadow: 0 12px 28px rgba(255,77,0,0.32);
+}
+.thx-heart {
+  position: absolute;
+  top: -8px;
+  right: -16px;
+  font-size: 28px;
+  animation: thx-bounce 1.4s ease-in-out infinite;
+}
+@keyframes thx-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+.thx-h1 {
+  margin: 0 0 12px;
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+}
+.thx-p {
+  margin: 0 0 24px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+  max-width: 32ch;
+}
+
+.thx-card {
+  width: 100%;
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  padding: 14px;
+  margin-bottom: 16px;
+  text-align: left;
+}
+.thx-card-head {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-text-secondary);
+  margin-bottom: 10px;
+}
+.thx-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--color-border);
+  font-size: 13px;
+  color: var(--color-text-primary);
+}
+.thx-row:last-child { border-bottom: 0; }
+.thx-row .stars { color: #F59E0B; font-size: 13px; letter-spacing: 1px; }
+.thx-nps {
+  background: #DCFCE7;
+  color: #166534;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.thx-bonus {
+  width: 100%;
+  display: flex;
+  gap: 12px;
+  background: linear-gradient(135deg, #FFF7ED 0%, #FFE9DC 100%);
+  border: 1.5px solid #FED7AA;
+  border-radius: 14px;
+  padding: 14px;
+  text-align: left;
+  margin-bottom: 16px;
+}
+.thx-bonus-ico {
+  font-size: 32px;
+  flex-shrink: 0;
+}
+.thx-bonus strong { display: block; font-size: 14px; font-weight: 700; color: #C2410C; }
+.thx-bonus p { margin: 4px 0 0; font-size: 12px; color: #9A3412; line-height: 1.45; }
+.thx-bonus code {
+  background: #fff;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-family: ui-monospace, monospace;
+  font-weight: 700;
+  color: #C2410C;
+  font-size: 11px;
+}
+
+.thx-help {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  padding: 12px 0 4px;
+  border-top: 1px solid var(--color-border);
+  margin-top: 8px;
+}
+.thx-help-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: 0;
+  color: var(--color-brand-orange);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.thx-foot {
+  margin-top: auto;
+  padding-top: 24px;
+  font-size: 11px;
+  color: var(--color-text-disabled);
+}
+
+/* Logo nas telas cliente (substitui o "d" estilizado) */
+.track-logo {
+  height: 30px;
+  width: auto;
+  filter: drop-shadow(0 4px 10px rgba(0,0,0,0.18));
+}
+.track-brand-meta { display: flex; flex-direction: column; }
+.nps-hero-logo {
+  height: 32px;
+  width: auto;
+  margin-bottom: 12px;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.2));
+}
+.thx-logo {
+  height: 44px;
+  width: auto;
+  filter: drop-shadow(0 6px 16px rgba(255,77,0,0.18));
 }

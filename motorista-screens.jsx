@@ -16,9 +16,9 @@ function MotoristaHome() {
         <header className="mot-header">
           <div className="top-row">
             <div>
-              <div className="greet">Bom dia, <strong>Carlos!</strong></div>
-              <h1>5 entregas hoje</h1>
-              <div className="date">Quarta · 14 de maio</div>
+              <div className="greet">Bom dia, <strong>Carlos!</strong> ☀️</div>
+              <h1>5 entregas pra hoje</h1>
+              <div className="date">Quarta · 14 de maio · tempo bom pra rodar</div>
             </div>
             <div className="av-icon">CM</div>
           </div>
@@ -175,8 +175,8 @@ function MotoristaAtiva() {
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
             </div>
             <div className="txt">
-              <strong>Observação do cliente</strong>
-              Interfone 84 · prefere entrega após 14h. Subir pelo elevador de serviço.
+              <strong>Recado do cliente</strong>
+              Dona Maria pediu pra subir pelo elevador de serviço. Interfone 84 · prefere depois das 14h.
             </div>
           </div>
         </div>
@@ -302,8 +302,8 @@ function MotoristaConfirmacao() {
         <div className="confirm-body">
           {step === 1 && (
             <>
-              <h2 className="confirm-h">Peça para o cliente assinar</h2>
-              <p className="confirm-sub">Mostre a tela para o cliente · Confirmação da entrega registrada.</p>
+              <h2 className="confirm-h">Peça pra dona Maria assinar</h2>
+              <p className="confirm-sub">Vire o celular pra ela e peça uma assininha aqui — vamos registrar a entrega.</p>
               <div className="signature-area">
                 <canvas ref={canvasRef} width={320} height={180} className="signature-canvas"/>
                 <div className="signature-line">
@@ -326,8 +326,8 @@ function MotoristaConfirmacao() {
 
           {step === 2 && (
             <>
-              <h2 className="confirm-h">Foto do local de entrega</h2>
-              <p className="confirm-sub">Mostre o produto entregue. A foto será enviada ao cliente como comprovante.</p>
+              <h2 className="confirm-h">Agora uma foto do produto</h2>
+              <p className="confirm-sub">Mostre como o produto ficou no local. A foto vai pro cliente como comprovante carinhoso.</p>
 
               <div className={`photo-frame ${photoTaken ? "done" : ""}`}>
                 {!photoTaken ? (
@@ -377,8 +377,8 @@ function MotoristaConfirmacao() {
                   <polyline points="20 6 9 17 4 12"/>
                 </svg>
               </div>
-              <h2>Entrega confirmada!</h2>
-              <p>Maria F. Souza recebeu o pedido. Cliente notificado por WhatsApp.</p>
+              <h2>Entrega feita com coração! 💛</h2>
+              <p>A dona Maria já recebeu o aviso no WhatsApp. Comprovante e foto vão chegar pra ela em segundos.</p>
 
               <div className="success-stats">
                 <div>

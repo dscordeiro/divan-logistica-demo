@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="extras-cargas.css" />
 <link rel="stylesheet" href="extras-nps.css" />
 <link rel="stylesheet" href="extras-mapa.css" />
-<link rel="stylesheet" href="hub-button.css?v=2" />
+<link rel="stylesheet" href="hub-button.css?v=3" />
 <style>
   html, body { margin: 0; padding: 0; height: 100vh; overflow: hidden; font-family: var(--font-sans); }
   #root { height: 100vh; }
@@ -46,11 +46,11 @@
 </a>
 <div id="root"></div>
 
-<script type="text/babel" src="admin-login.jsx?v=2"></script>
-<script type="text/babel" src="admin-dashboard.jsx?v=2"></script>
-<script type="text/babel" src="admin-cargas.jsx?v=2"></script>
-<script type="text/babel" src="nps-screens.jsx?v=2"></script>
-<script type="text/babel" src="admin-extra-pages.jsx?v=2"></script>
+<script type="text/babel" src="admin-login.jsx?v=3"></script>
+<script type="text/babel" src="admin-dashboard.jsx?v=3"></script>
+<script type="text/babel" src="admin-cargas.jsx?v=3"></script>
+<script type="text/babel" src="nps-screens.jsx?v=3"></script>
+<script type="text/babel" src="admin-extra-pages.jsx?v=3"></script>
 
 <script type="text/babel">
 
@@ -84,8 +84,7 @@ function ShellSidebar({ page, onNav, onLogout }) {
   return (
     <aside className="dash-sidebar" style={{ display: "flex" }}>
       <div className="brand">
-        <div style={{ width: 32, height: 32, background: "linear-gradient(135deg, #FF4D00, #F7A800)", borderRadius: 9, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, fontSize: 17, color: "#fff" }}>d</div>
-        <span style={{ fontWeight: 700, fontSize: 16, color: "#fff" }}> Divan</span>
+        <img src="assets/logo-white.png" alt="Divan Móveis" style={{ height: 30, width: "auto", display: "block" }} />
       </div>
       {NAV_GROUPS.map((g) =>
       <React.Fragment key={g.label}>
@@ -131,6 +130,7 @@ function App() {
   if (page === "mapa") PageEl = <AdminMapa />;else
   if (page === "motoristas") PageEl = <AdminMotoristas />;else
   if (page === "montadores") PageEl = <AdminMontadores />;else
+  if (page === "relatorios") PageEl = <AdminRelatorios />;else
   PageEl = <Stub title={NAV_GROUPS.flatMap((g) => g.items).find((i) => i.id === page)?.label || page} />;
 
   return (

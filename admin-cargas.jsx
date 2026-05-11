@@ -37,8 +37,8 @@ function AdminCargas() {
           {/* ============ COL 1 · Notas ============ */}
           <div className="col muted">
             <div className="col-head">
-              <h3><span className="num">1</span>Selecione as notas</h3>
-              <p>{notas.length} notas disponíveis · filtre por região</p>
+              <h3><span className="num">1</span>Escolha as notas</h3>
+              <p>{notas.length} prontas para sair · filtre por região se preferir</p>
             </div>
             <div className="col-search" style={{ display: "flex", gap: 8 }}>
               <div className="input-with-icon" style={{ flex: 1 }}>
@@ -77,8 +77,8 @@ function AdminCargas() {
           {/* ============ COL 2 · Montar Carga ============ */}
           <div className="col white">
             <div className="col-head">
-              <h3><span className="num">2</span>Configure o carregamento</h3>
-              <p>Reordene arrastando · defina motorista e veículo</p>
+              <h3><span className="num">2</span>Monte a carga</h3>
+              <p>Arraste para reordenar · escolha quem leva e em qual veículo</p>
             </div>
             <div className="col-body">
               <div style={{ fontSize: 11, color: "var(--color-text-secondary)", textTransform: "uppercase", letterSpacing: "0.06em", fontWeight: 600, marginBottom: 8 }}>Notas na carga</div>
@@ -112,7 +112,7 @@ function AdminCargas() {
               </div>
 
               <div style={{ fontSize: 11, color: "var(--color-text-secondary)", textTransform: "uppercase", letterSpacing: "0.06em", fontWeight: 600, marginTop: 16, marginBottom: 8 }}>Observações (opcional)</div>
-              <textarea className="input" placeholder="Ex.: Cliente do nº 3 prefere entrega após 14h" style={{ width: "100%", minHeight: 64, fontSize: 13 }} />
+              <textarea className="input" placeholder="Ex.: dona Maria prefere entrega depois das 14h · interfone 84" style={{ width: "100%", minHeight: 64, fontSize: 13 }} />
             </div>
             <div className="col-foot">
               <button className="btn btn-primary" style={{ width: "100%", height: 48 }}>
@@ -125,8 +125,8 @@ function AdminCargas() {
           {/* ============ COL 3 · Rota Gerada ============ */}
           <div className="col">
             <div className="col-head" style={{ background: "#fff" }}>
-              <h3><span className="num" style={{ background: "var(--color-success)" }}>3</span>Rota gerada</h3>
-              <p>Otimizada para 3 paradas · ordem inversa de carregamento</p>
+              <h3><span className="num" style={{ background: "var(--color-success)" }}>3</span>Pronto, rota traçada</h3>
+              <p>3 paradas otimizadas · ordem inversa de carregamento abaixo</p>
             </div>
 
             <div className="rota-map">
