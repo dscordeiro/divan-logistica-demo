@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="extras-cargas.css" />
 <link rel="stylesheet" href="extras-nps.css" />
 <link rel="stylesheet" href="extras-mapa.css" />
-<link rel="stylesheet" href="hub-button.css" />
+<link rel="stylesheet" href="hub-button.css?v=2" />
 <style>
   html, body { margin: 0; padding: 0; height: 100vh; overflow: hidden; font-family: var(--font-sans); }
   #root { height: 100vh; }
@@ -38,7 +38,7 @@
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
 </head>
-<body>
+<body class="has-sidebar">
 <a class="hub-back on-light" href="index.html" title="Voltar ao hub de demonstração">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
   <span class="label-default">Hub da demo</span>
@@ -130,6 +130,7 @@ function App() {
   if (page === "nps") PageEl = <AdminNPS />;else
   if (page === "mapa") PageEl = <AdminMapa />;else
   if (page === "motoristas") PageEl = <AdminMotoristas />;else
+  if (page === "montadores") PageEl = <AdminMontadores />;else
   PageEl = <Stub title={NAV_GROUPS.flatMap((g) => g.items).find((i) => i.id === page)?.label || page} />;
 
   return (

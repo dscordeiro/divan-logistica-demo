@@ -272,5 +272,132 @@ function AdminMotoristas() {
   );
 }
 
+function AdminMontadores() {
+  const assemblers = [
+    { name: "Bruno Garcia",     bond: "MEI",   spec: "Estofados · Quartos", status: "em-montagem", task: "OS-2401", deliv: 3, nps: 96, since: "Ago 2021" },
+    { name: "Felipe Tavares",   bond: "MEI",   spec: "Cozinhas · Banheiros", status: "em-montagem", task: "OS-2402", deliv: 2, nps: 91, since: "Mar 2022" },
+    { name: "Rafael Cunha",     bond: "CLT",   spec: "Móveis planejados",    status: "disponivel",  task: "—",       deliv: 0, nps: 88, since: "Jan 2020" },
+    { name: "Diego Oliveira",   bond: "MEI",   spec: "Eletros · TV / áudio", status: "em-montagem", task: "OS-2403", deliv: 4, nps: 93, since: "Out 2022" },
+    { name: "Lucas Pereira",    bond: "MEI",   spec: "Quartos · Salas",      status: "problema",    task: "OS-2404", deliv: 1, nps: 74, since: "Jun 2023" },
+    { name: "Tiago Bezerra",    bond: "CLT",   spec: "Cozinhas",             status: "disponivel",  task: "—",       deliv: 0, nps: 85, since: "Dez 2021" },
+    { name: "Vinicius Martins", bond: "MEI",   spec: "Estofados",            status: "folga",       task: "—",       deliv: 0, nps: 87, since: "Fev 2024" },
+  ];
+  const statusLabel = {
+    "em-montagem": "Em montagem",
+    "disponivel":  "Disponível",
+    "problema":    "Problema",
+    "folga":       "Folga",
+  };
+
+  const kpis = [
+    { label: "Total ativo",         val: 18, sub: "+1 este mês" },
+    { label: "Em montagem agora",   val: 3,  sub: "17% da equipe" },
+    { label: "Disponíveis",          val: 9,  sub: "Aguardando agenda" },
+    { label: "Em folga / off",      val: 6,  sub: "33% da equipe" },
+  ];
+
+  return (
+    <main className="dash-main">
+      <header className="dash-topbar">
+        <div>
+          <div className="dash-eyebrow">Operação</div>
+          <h1 className="dash-title">Montadores</h1>
+        </div>
+        <div className="dash-tools">
+          <div className="dash-search">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input placeholder="Buscar montador, CNPJ ou especialidade" />
+          </div>
+          <button className="btn btn-secondary btn-md">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Exportar
+          </button>
+          <button className="btn btn-primary btn-md">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Novo montador
+          </button>
+        </div>
+      </header>
+
+      <div className="dash-kpis">
+        {kpis.map(k => (
+          <div key={k.label} className="kpi">
+            <div className="kpi-label">{k.label}</div>
+            <div className="kpi-val">{k.val}</div>
+            <div className="kpi-sub">{k.sub}</div>
+          </div>
+        ))}
+      </div>
+
+      <section className="dash-card" style={{ marginTop: 24 }}>
+        <div className="card-head">
+          <h3>Lista de montadores</h3>
+          <div className="card-actions">
+            <button className="chip-tab on">Todos · 18</button>
+            <button className="chip-tab">Em montagem · 3</button>
+            <button className="chip-tab">Disponíveis · 9</button>
+            <button className="chip-tab">Folga · 6</button>
+          </div>
+        </div>
+        <table className="data-table">
+          <thead>
+            <tr>
+              <th>Montador</th>
+              <th>Vínculo</th>
+              <th>Especialidade</th>
+              <th>Status</th>
+              <th>OS atual</th>
+              <th>Montagens hoje</th>
+              <th>NPS</th>
+              <th>Na Divan desde</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {assemblers.map(a => (
+              <tr key={a.name}>
+                <td>
+                  <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                    <div className="row-avatar" style={{ background: "linear-gradient(135deg, #F7A800, #FFC940)", color: "#1a1a1a" }}>
+                      {a.name.split(" ").map(p => p[0]).slice(0,2).join("")}
+                    </div>
+                    <div>
+                      <div style={{ fontWeight: 600 }}>{a.name}</div>
+                      <div style={{ fontSize: 12, color: "var(--color-text-secondary)" }}>Montador parceiro</div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span className="chip-tab" style={{
+                    background: a.bond === "MEI" ? "rgba(247,168,0,0.12)" : "rgba(42,111,219,0.12)",
+                    color: a.bond === "MEI" ? "#B45309" : "#1D4ED8",
+                    fontSize: 11, padding: "3px 8px", borderRadius: 999,
+                    fontWeight: 700, letterSpacing: "0.04em"
+                  }}>{a.bond}</span>
+                </td>
+                <td style={{ fontSize: 13, color: "var(--color-text-secondary)" }}>{a.spec}</td>
+                <td><span className={`badge badge-${a.status}`}>{statusLabel[a.status]}</span></td>
+                <td>{a.task === "—" ? <span style={{ color: "var(--color-text-tertiary)" }}>—</span> : <strong>{a.task}</strong>}</td>
+                <td>{a.deliv > 0 ? `${a.deliv} montagens` : <span style={{ color: "var(--color-text-tertiary)" }}>—</span>}</td>
+                <td>
+                  <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                    <strong>{a.nps}</strong>
+                    <div style={{ width: 60, height: 5, background: "var(--color-border-soft)", borderRadius: 3, overflow: "hidden" }}>
+                      <div style={{ width: `${a.nps}%`, height: "100%", background: a.nps >= 85 ? "#1F8A5B" : a.nps >= 70 ? "#F7A800" : "#E63946" }} />
+                    </div>
+                  </div>
+                </td>
+                <td style={{ color: "var(--color-text-secondary)" }}>{a.since}</td>
+                <td><button className="icon-btn">→</button></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
+    </main>
+  );
+}
+
 window.AdminMapa = AdminMapa;
 window.AdminMotoristas = AdminMotoristas;
+window.AdminMontadores = AdminMontadores;

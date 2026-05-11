@@ -3,7 +3,7 @@
 
 function AdminLogin() {
   const [showPw, setShowPw] = React.useState(false);
-  const [email, setEmail] = React.useState("operador@divanmoveis.com.br");
+  const [email, setEmail] = React.useState("daniel@divanmoveis.com.br");
   const [pw, setPw] = React.useState("••••••••••");
 
   return (
@@ -13,7 +13,7 @@ function AdminLogin() {
         <div className="login-bg-pattern" />
 
         <div>
-          <div className="login-tag">Sistema Logístico · Operação</div>
+          <div className="login-tag">Sistema Logístico Divan</div>
           <div className="login-logo-stack">
             <img src="assets/logo-white.png" alt="Divan Móveis" />
           </div>
@@ -22,9 +22,24 @@ function AdminLogin() {
         <div>
           <h1 className="login-headline">Logística que<br/>funciona de coração.</h1>
           <p className="login-tagline">
-            Centro de operações para roteirizar, despachar e acompanhar
-            cada entrega da Divan Móveis em tempo real.
+            Entre com o seu acesso Divan. Operadores vão para o painel,
+            motoristas e montadores para sua agenda do dia.
           </p>
+
+          <div className="login-roles">
+            <div className="role-chip">
+              <span className="dot" style={{ background: "#FF8A50" }}></span>
+              Operador
+            </div>
+            <div className="role-chip">
+              <span className="dot" style={{ background: "#FF4D00" }}></span>
+              Motorista
+            </div>
+            <div className="role-chip">
+              <span className="dot" style={{ background: "#FFC940" }}></span>
+              Montador
+            </div>
+          </div>
         </div>
 
         <div className="login-footer-l">
@@ -32,7 +47,7 @@ function AdminLogin() {
             <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
             <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
           </svg>
-          <span>Área restrita · Acesso somente por operadores autorizados</span>
+          <span>Área restrita · Suas permissões definem para onde você vai</span>
         </div>
       </div>
 
@@ -44,7 +59,7 @@ function AdminLogin() {
           <div>
             <h2>Entrar no sistema</h2>
           </div>
-          <p className="sub">Use suas credenciais corporativas para continuar.</p>
+          <p className="sub">Use suas credenciais Divan — o sistema te leva para a sua área.</p>
 
           <div className="login-fields">
             <div className="field">

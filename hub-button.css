@@ -48,3 +48,13 @@
   border-color: rgba(255, 77, 0, 1);
   color: #fff;
 }
+
+/* No admin, há sidebar dark fixa de 240px no canto esquerdo —
+   reposiciona o Hub button no canto inferior esquerdo, embaixo do
+   card de usuário, pra não cobrir o logo Divan da sidebar */
+body.has-sidebar .hub-back {
+  top: auto;
+  bottom: 16px;
+  left: auto;
+  right: 16px;
+}
