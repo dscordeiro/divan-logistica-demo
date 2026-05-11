@@ -24,36 +24,51 @@
   <span class="label-hover">Voltar</span>
 </a>
 <div id="root"></div>
-<script type="text/babel" src="design-canvas.jsx"></script>
-<script type="text/babel" src="nps-screens.jsx?v=3"></script>
+<script type="text/babel" src="nps-screens.jsx?v=4"></script>
 <script type="text/babel">
-function App() {
-  return (
-    <DesignCanvas>
-      <DCSection
-        id="cliente-tracking"
-        title="Cliente — Acompanhamento ao vivo"
-        subtitle="Tela aberta pelo cliente via link WhatsApp · timeline de status, mapa do motorista, dados do pedido e contato de suporte"
-      >
-        <DCArtboard id="track-live" label="Acompanhamento · 390 × 844" width={390} height={844}>
-          <ClienteTracking />
-        </DCArtboard>
-      </DCSection>
+const { useState } = React;
 
-      <DCSection
-        id="cliente-nps"
-        title="Cliente — Avaliação após a montagem"
-        subtitle="Formulário enviado por WhatsApp · estrelas separadas para motorista e montador + NPS 0–10 + comentário"
-      >
-        <DCArtboard id="nps-form" label="Avaliação NPS · 390 × 844" width={390} height={844}>
-          <ClienteNPSForm />
-        </DCArtboard>
-      </DCSection>
-    </DesignCanvas>
+function ClienteShowcase() {
+  const [view, setView] = useState("tracking");
+
+  return (
+    <div className="cli-showcase">
+      <div className="cli-toggle-bar">
+        <div className="cli-toggle-meta">
+          <div className="cli-toggle-tag">Jornada do Cliente</div>
+          <div className="cli-toggle-h">
+            {view === "tracking" ? "Acompanhamento durante a entrega" : "Avaliação após a montagem"}
+          </div>
+          <div className="cli-toggle-sub">
+            {view === "tracking"
+              ? "Link recebido por WhatsApp · acompanhamento em tempo real"
+              : "Formulário enviado por WhatsApp após a montagem"}
+          </div>
+        </div>
+        <div className="cli-toggle">
+          <button
+            className={view === "tracking" ? "on tracking" : ""}
+            onClick={() => setView("tracking")}
+          >
+            🚚 Acompanhamento
+          </button>
+          <button
+            className={view === "nps" ? "on nps" : ""}
+            onClick={() => setView("nps")}
+          >
+            ⭐ Avaliação NPS
+          </button>
+        </div>
+      </div>
+
+      <div className="cli-stage">
+        {view === "tracking" ? <ClienteTracking /> : <ClienteNPSForm />}
+      </div>
+    </div>
   );
 }
 
-ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+ReactDOM.createRoot(document.getElementById('root')).render(<ClienteShowcase />);
 </script>
 </body>
 </html>
