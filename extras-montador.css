@@ -236,10 +236,12 @@
   color: var(--color-text-secondary);
 }
 
-/* ==== Confirmação variantes âmbar (montador) ==== */
-.confirm-progress .pdot.on.amber { background: #F7A800; }
+/* ==== Confirmação variantes âmbar (montador) ====
+   Usa seletor com !important pra sobrescrever .confirm-progress .pdot.on
+   do extras-motorista.css (carregado antes, mesma especificidade) */
+.confirm-progress .pdot.on.amber { background: #F7A800 !important; }
 .confirm-progress .pdot.now.amber {
-  box-shadow: 0 0 0 4px rgba(247,168,0,0.22);
+  box-shadow: 0 0 0 4px rgba(247,168,0,0.22) !important;
 }
 .cam-shutter.amber span {
   background: #F7A800;
