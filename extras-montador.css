@@ -235,3 +235,43 @@
   display: flex; align-items: center; justify-content: center;
   color: var(--color-text-secondary);
 }
+
+/* ==== Confirmação variantes âmbar (montador) ==== */
+.confirm-progress .pdot.on.amber { background: #F7A800; }
+.confirm-progress .pdot.now.amber {
+  box-shadow: 0 0 0 4px rgba(247,168,0,0.22);
+}
+.cam-shutter.amber span {
+  background: #F7A800;
+}
+.confirm-success-burst.amber {
+  background: linear-gradient(135deg, #F7A800, #FFC940);
+  color: #1a1a1a;
+  box-shadow: 0 0 0 8px rgba(247,168,0,0.15), 0 8px 24px rgba(247,168,0,0.35);
+}
+.success-stats.amber {
+  background: linear-gradient(135deg, rgba(247,168,0,0.08), rgba(255,201,64,0.04));
+  border: 1px solid rgba(247,168,0,0.18);
+}
+.next-card.amber {
+  border-color: #F7A800;
+}
+.next-card.amber .next-lbl {
+  color: #B45309;
+}
+.next-row .num.amber {
+  background: linear-gradient(135deg, #F7A800, #FFC940);
+  color: #1a1a1a;
+}
+.confirm-footer.amber .btn-primary {
+  background: #F7A800;
+  color: #1a1a1a;
+}
+.confirm-footer.amber .btn-primary:hover {
+  background: #E89A00;
+}
+.confirm-footer.amber .btn-primary:disabled {
+  background: #E0E0E0;
+  color: #ABABAB;
+  cursor: not-allowed;
+}

@@ -212,7 +212,10 @@ function MontadorAtiva() {
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
             Reportar
           </button>
-          <button className="btn btn-primary" style={{ background: "#1a1a1a" }}>
+          <button className="btn btn-primary" style={{ background: "#1a1a1a" }} onClick={() => {
+            localStorage.setItem("divan.mont.tab", "confirmacao");
+            location.reload();
+          }}>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
             Finalizar montagem
           </button>
@@ -222,5 +225,172 @@ function MontadorAtiva() {
   );
 }
 
+/* ============================================================
+   MONTADOR · CONFIRMAÇÃO DE MONTAGEM (3 passos)
+   1. Foto "antes" (peças no chão)
+   2. Foto "depois" (móvel montado)
+   3. Sucesso + repasse + próxima OS
+   ============================================================ */
+function MontadorConfirmacao() {
+  const [step, setStep] = React.useState(1);
+  const [beforePic, setBeforePic] = React.useState(true);  // já vem marcada da entrega
+  const [afterPic, setAfterPic] = React.useState(false);
+
+  const goAgenda = () => { localStorage.setItem("divan.mont.tab", "home"); location.reload(); };
+  const goAtiva = () => { localStorage.setItem("divan.mont.tab", "ativa"); location.reload(); };
+
+  return (
+    <div className="phone-frame">
+      <div className="phone-screen">
+        <div className="phone-status" style={{ color: "#1a1a1a", zIndex: 6 }}>
+          <span>9:41</span>
+          <div className="dots"><span></span><span></span><span></span></div>
+          <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
+            <svg width="16" height="11" viewBox="0 0 17 11" fill="currentColor"><rect y="6" width="3" height="5" rx="0.5"/><rect x="4.5" y="3.5" width="3" height="7.5" rx="0.5"/><rect x="9" y="1" width="3" height="10" rx="0.5"/><rect x="13.5" width="3" height="11" rx="0.5"/></svg>
+            <div className="battery"><div className="fill"></div></div>
+          </div>
+        </div>
+
+        <div className="confirm-bar">
+          <button className="back-btn" onClick={goAtiva} aria-label="Voltar">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <div className="confirm-progress">
+            {[1,2,3].map(n => (
+              <span key={n} className={`pdot ${step >= n ? "on amber" : ""} ${step === n ? "now amber" : ""}`} />
+            ))}
+            <span className="confirm-step-label">Passo {step} de 3</span>
+          </div>
+          <div className="confirm-cli">
+            <span className="av" style={{ background: "linear-gradient(135deg, #FFB800, #F7A800)", color: "#1a1a1a" }}>MS</span>
+            <span className="nm">Maria F. Souza</span>
+          </div>
+        </div>
+
+        <div className="confirm-body">
+          {step === 1 && (
+            <>
+              <h2 className="confirm-h">Foto do <span style={{ color: "#B45309" }}>antes</span></h2>
+              <p className="confirm-sub">Registre as peças e a embalagem no local antes de começar a montagem. Já capturada na entrega.</p>
+
+              <div className="photo-frame done">
+                <div className="photo-preview">
+                  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#22C55E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                  <div>Foto "antes" registrada</div>
+                  <small>IMG-ANTES-2026-05-14-1432.jpg</small>
+                </div>
+              </div>
+
+              <button className="sig-clear" onClick={() => setBeforePic(false)}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+                Tirar nova foto
+              </button>
+
+              <div className="confirm-footer amber">
+                <button className="btn btn-secondary" onClick={goAtiva}>Cancelar</button>
+                <button className="btn btn-primary" onClick={() => setStep(2)}>
+                  Próxima foto
+                </button>
+              </div>
+            </>
+          )}
+
+          {step === 2 && (
+            <>
+              <h2 className="confirm-h">Foto do <span style={{ color: "#16A34A" }}>depois</span></h2>
+              <p className="confirm-sub">Registre o móvel montado no local final. Foto obrigatória pro repasse ser liberado.</p>
+
+              <div className={`photo-frame ${afterPic ? "done" : ""}`}>
+                {!afterPic ? (
+                  <>
+                    <div className="cam-grid">
+                      <span></span><span></span><span></span>
+                      <span></span><span></span><span></span>
+                    </div>
+                    <div className="cam-target">
+                      <span /><span /><span /><span />
+                    </div>
+                    <div className="cam-hint">Enquadre o móvel montado</div>
+                  </>
+                ) : (
+                  <div className="photo-preview">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#22C55E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    <div>Foto "depois" capturada</div>
+                    <small>IMG-DEPOIS-2026-05-14-1610.jpg</small>
+                  </div>
+                )}
+              </div>
+
+              {!afterPic ? (
+                <button className="cam-shutter amber" onClick={() => setAfterPic(true)} aria-label="Capturar">
+                  <span/>
+                </button>
+              ) : (
+                <button className="sig-clear" onClick={() => setAfterPic(false)}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+                  Tirar outra
+                </button>
+              )}
+
+              <div className="confirm-footer amber">
+                <button className="btn btn-secondary" onClick={() => setStep(1)}>Voltar</button>
+                <button className="btn btn-primary" disabled={!afterPic} onClick={() => setStep(3)}>
+                  Finalizar montagem
+                </button>
+              </div>
+            </>
+          )}
+
+          {step === 3 && (
+            <div className="confirm-success">
+              <div className="confirm-success-burst amber">
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+              </div>
+              <h2>Montagem concluída!</h2>
+              <p>Maria F. Souza foi notificada. O repasse de R$ 180 será creditado no próximo fechamento.</p>
+
+              <div className="success-stats amber">
+                <div>
+                  <span>Tempo</span>
+                  <strong>1h 38</strong>
+                </div>
+                <span className="sep" />
+                <div>
+                  <span>Repasse</span>
+                  <strong>R$ 180</strong>
+                </div>
+                <span className="sep" />
+                <div>
+                  <span>Hoje</span>
+                  <strong>2 de 3</strong>
+                </div>
+              </div>
+
+              <div className="next-card amber">
+                <div className="next-lbl">Próxima montagem</div>
+                <div className="next-row">
+                  <span className="num amber">2ª</span>
+                  <div>
+                    <div className="cli">Pedro Almeida</div>
+                    <div className="addr">Av. Brigadeiro, 890 · Itaim · 14:00</div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="confirm-footer amber">
+                <button className="btn btn-secondary" onClick={goAgenda}>Voltar à agenda</button>
+                <button className="btn btn-primary" onClick={goAtiva}>Próxima montagem</button>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 window.MontadorHome = MontadorHome;
 window.MontadorAtiva = MontadorAtiva;
+window.MontadorConfirmacao = MontadorConfirmacao;
