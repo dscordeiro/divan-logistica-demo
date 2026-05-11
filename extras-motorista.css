@@ -302,3 +302,329 @@
   gap: 10px;
 }
 .mot-footer-2 .btn { flex: 1; height: 56px; border-radius: 16px; font-size: 15px; font-weight: 700; }
+
+/* ====== CONFIRMAÇÃO DE ENTREGA (3 passos) ====== */
+.confirm-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: #fff;
+  border-bottom: 1px solid var(--color-border);
+}
+.confirm-bar .back-btn {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--color-border);
+  background: #fff;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  color: var(--color-text-primary);
+  flex-shrink: 0;
+}
+.confirm-progress {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  justify-content: center;
+  position: relative;
+}
+.confirm-progress .pdot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--color-border);
+  transition: background 0.2s, transform 0.2s;
+}
+.confirm-progress .pdot.on { background: var(--color-brand-orange); }
+.confirm-progress .pdot.now {
+  transform: scale(1.4);
+  box-shadow: 0 0 0 4px rgba(255,77,0,0.18);
+}
+.confirm-step-label {
+  position: absolute;
+  bottom: -14px;
+  font-size: 10px;
+  color: var(--color-text-secondary);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.confirm-cli {
+  display: flex; align-items: center; gap: 6px;
+  flex-shrink: 0;
+}
+.confirm-cli .av {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #FF4D00, #F7A800);
+  color: #fff;
+  font-size: 11px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
+.confirm-cli .nm {
+  font-size: 12px; font-weight: 600;
+  color: var(--color-text-primary);
+  max-width: 80px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.confirm-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 20px 100px;
+  display: flex;
+  flex-direction: column;
+}
+.confirm-h {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 16px 0 6px;
+  color: var(--color-text-primary);
+}
+.confirm-sub {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  margin: 0 0 20px;
+  line-height: 1.45;
+}
+
+/* Step 1 — Assinatura */
+.signature-area {
+  background: #fff;
+  border: 2px dashed var(--color-border);
+  border-radius: 16px;
+  padding: 14px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.signature-canvas {
+  width: 100%;
+  height: 180px;
+  border-radius: 10px;
+  background: #FAFAFA;
+  cursor: crosshair;
+  touch-action: none;
+}
+.signature-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  padding: 0 8px;
+  border-top: 1px solid var(--color-border);
+  padding-top: 8px;
+}
+.signature-line span:first-child {
+  font-size: 18px;
+  color: var(--color-text-disabled);
+}
+.sig-clear {
+  margin-top: 12px;
+  align-self: flex-start;
+  display: inline-flex; align-items: center; gap: 6px;
+  background: transparent;
+  border: 0;
+  color: var(--color-brand-orange);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 6px 10px;
+}
+.sig-clear:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* Step 2 — Foto */
+.photo-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  border-radius: 18px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+.photo-frame.done {
+  background: linear-gradient(135deg, #DCFCE7 0%, #BBF7D0 100%);
+  border: 2px solid #22C55E;
+}
+.photo-frame .cam-grid {
+  position: absolute; inset: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+.photo-frame .cam-grid span {
+  border: 1px dashed rgba(255,255,255,0.12);
+}
+.photo-frame .cam-target {
+  width: 60%;
+  aspect-ratio: 1;
+  position: relative;
+}
+.photo-frame .cam-target span {
+  position: absolute;
+  width: 24px; height: 24px;
+  border: 3px solid #FFB800;
+}
+.photo-frame .cam-target span:nth-child(1) { top: 0; left: 0; border-right: 0; border-bottom: 0; border-top-left-radius: 8px; }
+.photo-frame .cam-target span:nth-child(2) { top: 0; right: 0; border-left: 0; border-bottom: 0; border-top-right-radius: 8px; }
+.photo-frame .cam-target span:nth-child(3) { bottom: 0; left: 0; border-right: 0; border-top: 0; border-bottom-left-radius: 8px; }
+.photo-frame .cam-target span:nth-child(4) { bottom: 0; right: 0; border-left: 0; border-top: 0; border-bottom-right-radius: 8px; }
+.photo-frame .cam-hint {
+  position: absolute;
+  bottom: 16px; left: 0; right: 0;
+  text-align: center;
+  font-size: 12px;
+  color: rgba(255,255,255,0.75);
+  font-weight: 500;
+}
+.photo-preview {
+  text-align: center;
+  color: #166534;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+}
+.photo-preview > div {
+  font-size: 16px;
+  font-weight: 700;
+}
+.photo-preview small {
+  font-size: 12px;
+  color: #166534;
+  opacity: 0.75;
+  font-family: ui-monospace, monospace;
+}
+.cam-shutter {
+  margin: 0 auto 16px;
+  display: flex; align-items: center; justify-content: center;
+  width: 72px; height: 72px;
+  border-radius: 50%;
+  border: 4px solid #fff;
+  outline: 2px solid var(--color-border);
+  background: transparent;
+  cursor: pointer;
+  transition: transform 0.12s;
+}
+.cam-shutter:hover { transform: scale(0.97); }
+.cam-shutter span {
+  width: 54px; height: 54px;
+  border-radius: 50%;
+  background: var(--color-brand-orange);
+}
+
+/* Step 3 — Sucesso */
+.confirm-success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding-top: 24px;
+}
+.confirm-success-burst {
+  width: 96px; height: 96px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #22C55E, #16A34A);
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 0 8px rgba(34,197,94,0.15), 0 8px 24px rgba(34,197,94,0.35);
+  margin-bottom: 16px;
+}
+.confirm-success h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--color-text-primary);
+  letter-spacing: -0.01em;
+}
+.confirm-success p {
+  margin: 4px 0 24px;
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  text-align: center;
+  max-width: 30ch;
+  line-height: 1.45;
+}
+.success-stats {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background: var(--color-bg-soft);
+  border-radius: 14px;
+  padding: 14px 8px;
+  margin-bottom: 16px;
+}
+.success-stats > div {
+  text-align: center;
+  display: flex; flex-direction: column; gap: 2px;
+}
+.success-stats span {
+  font-size: 10px;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+}
+.success-stats strong {
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--color-text-primary);
+  letter-spacing: -0.01em;
+}
+.success-stats .sep {
+  width: 1px;
+  height: 28px;
+  background: var(--color-border);
+}
+.next-card {
+  width: 100%;
+  background: #fff;
+  border: 1.5px solid var(--color-brand-orange);
+  border-radius: 16px;
+  padding: 14px;
+  margin-bottom: 16px;
+}
+.next-lbl {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--color-brand-orange);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+}
+.next-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.next-row .num {
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #FF4D00, #F7A800);
+  color: #fff;
+  font-size: 16px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.next-row .cli { font-size: 15px; font-weight: 700; color: var(--color-text-primary); }
+.next-row .addr { font-size: 12px; color: var(--color-text-secondary); margin-top: 2px; }
+
+/* Footer com 2 botões lado a lado */
+.confirm-footer {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  padding: 14px 20px 18px;
+  background: linear-gradient(180deg, rgba(255,255,255,0) 0%, #fff 30%);
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: 10px;
+}
+.confirm-footer .btn { height: 48px; }

@@ -59,7 +59,7 @@
   <span class="label-hover">Voltar</span>
 </a>
 <div id="root"></div>
-<script type="text/babel" src="motorista-screens.jsx"></script>
+<script type="text/babel" src="motorista-screens.jsx?v=2"></script>
 <script type="text/babel">
 const { useState } = React;
 
@@ -109,6 +109,7 @@ function App() {
   let Page;
   if (tab === "ativa") Page = MotoristaAtiva;
   else if (tab === "perfil") Page = MotPerfil;
+  else if (tab === "confirmacao") Page = MotoristaConfirmacao;
   else Page = MotoristaHome;
 
   return (
@@ -116,7 +117,7 @@ function App() {
       <div className="stage-label">App do <strong>Motorista</strong> · Divan</div>
       <div className="phone-wrap">
         <Page />
-        <nav className="bottom-nav">
+        {tab !== "confirmacao" && <nav className="bottom-nav">
           <div className={`tab ${tab === "home" ? "active" : ""}`} onClick={() => setTab("home")}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
             Agenda
@@ -130,7 +131,7 @@ function App() {
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 22a8 8 0 0 1 16 0"/></svg>
             Perfil
           </div>
-        </nav>
+        </nav>}
       </div>
     </div>
   );
