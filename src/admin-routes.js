@@ -99,6 +99,7 @@ export default async function adminRoutes(app) {
     await db.query('UPDATE users SET failed_attempts=0, locked_until=NULL WHERE id=$1', [u.id]);
     const need2fa = u.totp_enabled ? 'pending_2fa' : ((config.require2fa && u.role === 'admin') ? 'setup_2fa' : 'full');
     await createSession(reply, req, u.id, need2fa);
+    await setSetting('setup_open', false);
     if (need2fa === 'full') {
       removeFirstAccessFile();
       await db.query('UPDATE users SET last_login_at=now() WHERE id=$1', [u.id]);
@@ -147,9 +148,26 @@ export default async function adminRoutes(app) {
 
   app.get('/admin/api/me', async (req, reply) => {
     const s = await loadSession(req);
-    if (!s) return { stage: null, user: null };
+    if (!s) return { stage: null, user: null, setup: (await getSetting('setup_open', false)) === true ? { email: config.adminEmail } : null };
     return { stage: s.stage, user: s.stage === 'full' ? publicUser(s) : null, require2fa: config.require2fa };
   });
+  // Primeiro acesso: o administrador define a própria senha (só enquanto ninguém entrou no painel)
+  app.post('/admin/api/setup', { config: { rateLimit: { max: 5, timeWindow: '1 minute' } } }, async (req, reply) => {
+    if ((await getSetting('setup_open', false)) !== true) return reply.code(403).send({ error: 'O primeiro acesso já foi configurado. Faça login.' });
+    const pw = String(req.body?.password || '');
+    const prob = passwordProblem(pw); if (prob) return reply.code(400).send({ error: prob });
+    const u = await db.one("SELECT * FROM users WHERE email=$1 AND role='admin'", [config.adminEmail.toLowerCase()]);
+    if (!u) return reply.code(400).send({ error: 'Administrador não encontrado.' });
+    await db.query('UPDATE users SET password_hash=$2, failed_attempts=0, locked_until=NULL, updated_at=now() WHERE id=$1', [u.id, await hashPassword(pw)]);
+    await setSetting('setup_open', false);
+    removeFirstAccessFile();
+    const stage = u.totp_enabled ? 'pending_2fa' : (config.require2fa ? 'setup_2fa' : 'full');
+    await createSession(reply, req, u.id, stage);
+    req.user = u; await audit(req, 'senha_definida_primeiro_acesso', 'user', u.id);
+    if (stage === 'full') { await db.query('UPDATE users SET last_login_at=now() WHERE id=$1', [u.id]); await audit(req, 'login'); }
+    return { stage, user: stage === 'full' ? publicUser(u) : null };
+  });
+
   app.post('/admin/api/logout', async (req, reply) => {
     const s = await loadSession(req);
     if (s) { await db.query('UPDATE admin_sessions SET revoked_at=now() WHERE id=$1', [s.sid]); req.user = s; await audit(req, 'logout'); }

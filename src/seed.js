@@ -96,6 +96,11 @@ export async function seed() {
   }
 
   await migrateData();
+  // Instalações já existentes: libera a criação de senha se o admin gerado nunca entrou
+  if ((await getSetting('setup_open')) === null) {
+    const users = await db.all('SELECT role, last_login_at FROM users');
+    await setSetting('setup_open', !config.adminPassword && users.length === 1 && users[0].role === 'admin' && !users[0].last_login_at);
+  }
 
   // Primeiro administrador
   const u = await db.one('SELECT count(*)::int AS n FROM users');
@@ -104,6 +109,7 @@ export async function seed() {
     await db.query('INSERT INTO users(name,email,password_hash,role) VALUES($1,$2,$3,$4)',
       [process.env.ADMIN_NAME || 'Daniel Cordeiro', config.adminEmail.toLowerCase(), await hashPassword(pass), 'admin']);
     if (!config.adminPassword) {
+      await setSetting('setup_open', true);
       const f = path.join(config.dataDir, 'PRIMEIRO-ACESSO.txt');
       fs.writeFileSync(f, `Painel: ${config.appUrl}/admin\nE-mail: ${config.adminEmail}\nSenha: ${pass}\n\nTroque a senha no primeiro acesso (Minha conta) e apague este arquivo.\n`, { mode: 0o600 });
       console.log(`\n  Primeiro acesso ao painel → e-mail: ${config.adminEmail}  senha: ${pass}\n  (também salvo em ${f})\n`);

@@ -57,6 +57,19 @@
           function (er) { b.disabled = false; document.getElementById('err').textContent = er.message; });
     };
   }
+  function renderSetup(setup) {
+    $app.innerHTML = '<div class="login"><div class="box"><img class="logo" src="/static/brand/logo-white-solid.png" alt="Divan Móveis"><h1>Primeiro acesso</h1>' +
+      '<p class="muted">Crie a senha do administrador <b>' + esc(setup.email) + '</b>. Depois disso, este passo fica bloqueado.</p>' +
+      '<form id="fs"><label class="f">Nova senha <span class="h">mínimo 10 caracteres, com letras e números</span><input name="p1" type="password" autocomplete="new-password" required autofocus></label>' +
+      '<label class="f">Repita a senha<input name="p2" type="password" autocomplete="new-password" required></label>' +
+      '<div class="err" id="err"></div><button class="btn brand">Criar senha e entrar</button></form></div></div>';
+    document.getElementById('fs').onsubmit = function (e) {
+      e.preventDefault();
+      var f = e.target; if (f.p1.value !== f.p2.value) { document.getElementById('err').textContent = 'As senhas não conferem.'; return; }
+      api('POST', '/admin/api/setup', { password: f.p1.value }).then(function (r) { if (r.stage === 'full') afterLogin(r); else renderLogin(r.stage); },
+        function (er) { document.getElementById('err').textContent = er.message; });
+    };
+  }
   function render2faSetup(forced) {
     api('GET', '/admin/api/2fa/setup').then(function (r) {
       var html = '<img class="logo" src="/static/brand/logo-white-solid.png" alt="Divan Móveis"><h1>Ative a verificação em duas etapas</h1>' +
@@ -556,6 +569,6 @@
   window.addEventListener('hashchange', route);
 
   api('GET', '/admin/api/me').then(function (r) {
-    if (r.stage === 'full') afterLogin(r); else renderLogin(r.stage);
+    if (r.stage === 'full') afterLogin(r); else if (!r.stage && r.setup) renderSetup(r.setup); else renderLogin(r.stage);
   }, function () { renderLogin(); });
 })();
