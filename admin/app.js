@@ -240,13 +240,14 @@
         '<section class="card c12"><h2>Campanhas e links</h2><p class="sub">Desempenho por link rastreável · "(sem campanha)" = acesso direto ou pelas redes sem link de campanha</p>' + campaignTable(d.byCampaign) + '</section>' +
         '<section class="card c4"><h2>Origens de tráfego</h2><p class="sub">Sessões por origem</p>' + bars(d.bySource, function (s) { return s.source; }, function (s) { return s.sessions; }, function (s) { return n(s.clicks) + ' cliques'; }) + '</section>' +
         '<section class="card c4"><h2>Dispositivos</h2><p class="sub">Visitantes por tipo de aparelho</p>' + bars(d.byDevice, function (s) { return DEVICE[s.k] || s.k; }, function (s) { return s.visitors; }) +
-        '<p class="sub mt">Sistema</p>' + bars(d.byOs.slice(0, 5), function (s) { return s.k; }, function (s) { return s.visitors; }) + '</section>' +
+        '<p class="sub mt">Sistema</p>' + bars(d.byOs.slice(0, 5), function (s) { return s.k; }, function (s) { return s.visitors; }) +
+        '<p class="sub mt">Navegador</p>' + bars(d.byBrowser.slice(0, 5), function (s) { return s.k; }, function (s) { return s.visitors; }) + '</section>' +
         '<section class="card c4"><h2>Localização aproximada</h2><p class="sub">Visitantes por estado · estimativa pelo endereço de internet</p>' +
         (d.byUf.length === 1 && d.byUf[0].k === 'Desconhecido' ? '<div class="empty">Geolocalização desativada. Veja Configurações.</div>' : bars(d.byUf, function (s) { return s.k; }, function (s) { return s.visitors; }) +
           (d.byCity.length ? '<p class="sub mt">Cidades (indicativo; no celular costuma mostrar a cidade da operadora)</p>' + bars(d.byCity, function (s) { return s.city + ' · ' + (s.uf || ''); }, function (s) { return s.visitors; }) : '')) + '</section>' +
         '<section class="card c8"><h2>Lojas: rotas e avaliações</h2><p class="sub">Toques em "Rota" e "Avaliar" por loja · nota e total do Google atualizados manualmente em Lojas</p>' + storeTable(d.stores) + '</section>' +
-        '<section class="card c4"><h2>Navegadores</h2><p class="sub">Visitantes</p>' + bars(d.byBrowser.slice(0, 6), function (s) { return s.k; }, function (s) { return s.visitors; }) +
-        '<p class="sub mt">Números que receberam contato</p>' + bars(d.destinations, function (s) { return s.destination + (s.destination_type === 'tel' ? ' (ligação)' : ''); }, function (s) { return s.clicks; }) + '</section>' +
+        '<section class="card c4"><h2>Contatos por número</h2><p class="sub">Quantas vezes cada número da Divan foi acionado pela página</p>' +
+        (d.destinations.length ? bars(d.destinations, function (s) { return destLabel(s); }, function (s) { return s.clicks; }) : '<div class="empty">Nenhum contato no período.</div>') + '</section>' +
         '</div><p class="note">Excluídos dos números: ' + n(d.noise.bots) + ' registros de robôs/prévias de link, ' + n(d.noise.internal) + ' acessos internos e ' + n(d.noise.dups) + ' cliques repetidos em menos de 10 s. ' +
         (k.outside_hours_clicks ? n(k.outside_hours_clicks) + ' cliques de contato aconteceram fora do horário de atendimento. ' : '') +
         (k.includes_history ? 'Parte do período vem de totais consolidados (dados detalhados já apagados pela retenção).' : '') + '</p>';
@@ -265,6 +266,9 @@
       chart('c-wd', { type: 'bar', data: { labels: WD, datasets: [{ label: 'Cliques', data: wd, backgroundColor: '#E8590C', borderRadius: 4, maxBarThickness: 36 }] } });
     }, function (er) { document.getElementById('dash').innerHTML = '<div class="empty">' + esc(er.message) + '</div>'; });
   }
+  function fmtPhone(p) { var m = String(p || '').replace(/\D/g, '').match(/^55(\d{2})(\d{4,5})(\d{4})$/); return m ? '(' + m[1] + ') ' + m[2] + '-' + m[3] : p; }
+  function destLabel(s) { var raw = String(s.destination || ''); var i = raw.lastIndexOf(':'); var name = i > 0 ? raw.slice(0, i) : (s.cta_key || ''); var num = i > 0 ? raw.slice(i + 1).trim() : raw;
+    return (name ? name + ' · ' : '') + fmtPhone(num) + (s.destination_type === 'tel' ? ' (ligação)' : ''); }
   function campaignTable(rows) {
     if (!rows.length) return '<div class="empty">Sem dados no período</div>';
     var CH = { televendas: 'Televendas', assistencia: 'Assistência', ofertas: 'Ofertas', lojas: 'Lojas', site: 'Site' };
