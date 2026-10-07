@@ -1,0 +1,5 @@
+# Sem diretiva "log": o Caddy não grava log de acesso (nenhum IP de visitante em disco).
+{$SITE_DOMAIN} {
+	encode gzip
+	reverse_proxy app:3000
+}

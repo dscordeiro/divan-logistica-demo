@@ -1,0 +1,33 @@
+{
+  "name": "divan-links",
+  "version": "1.0.0",
+  "description": "Divan Links: página de atalhos + painel de monitoramento",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "node --test test/*.test.js",
+    "create-admin": "node scripts/create-admin.js",
+    "rollup": "node scripts/rollup.js",
+    "demo": "DATA_DIR=data-demo ADMIN_PASSWORD=divan2026demo node scripts/demo-data.js && DATA_DIR=data-demo ADMIN_PASSWORD=divan2026demo node server.js"
+  },
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@electric-sql/pglite": "^0.5.8",
+    "@fastify/cookie": "^11.1.2",
+    "@fastify/formbody": "^9.0.0",
+    "@fastify/rate-limit": "^11.2.0",
+    "@fastify/static": "^10.1.5",
+    "chart.js": "^4.5.1",
+    "fastify": "^5.12.5",
+    "maxmind": "^5.0.7",
+    "pg": "^8.23.1",
+    "qrcode": "^1.5.4",
+    "ua-parser-js": "^1.0.41"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "private": true
+}
