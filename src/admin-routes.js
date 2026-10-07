@@ -251,6 +251,13 @@ export default async function adminRoutes(app) {
     await audit(req, 'alterou', 'campanha', r.slug, changes(before, c, CF.slice(1)));
     return r;
   });
+  app.delete('/admin/api/campaigns/:id', adminOnly, async (req, reply) => {
+    const before = await db.one('SELECT * FROM campaigns WHERE id=$1', [Number(req.params.id)]);
+    if (!before) return reply.code(404).send({ error: 'Campanha não encontrada' });
+    await db.query('DELETE FROM campaigns WHERE id=$1', [before.id]);
+    await audit(req, 'excluiu', 'campanha', before.slug, { nome: before.name, canal: before.channel, codigo: before.short_code });
+    return { ok: true };
+  });
   app.get('/admin/api/qr', anyRole, async (req, reply) => {
     const p = String(req.query.path || '');
     if (!/^\/(c|avaliar)\/[a-z0-9-]{1,60}$/.test(p) && p !== '/') return reply.code(400).send({ error: 'Caminho inválido' });

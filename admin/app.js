@@ -326,11 +326,12 @@
           '<div class="s">' + esc(url) + '</div><div class="s">' + esc(CHN[c.channel] || c.channel) + ' · ' + esc(landing) + (c.short_code ? ' · código no WhatsApp: [' + esc(c.short_code) + ']' : '') + esc(period) + '</div></div>' +
           '<div class="s"><b>' + n(c.hits) + '</b> entradas · <b>' + n(c.clicks) + '</b> cliques</div>' +
           '<button class="btn ghost sm" data-copy="' + esc(url) + '">Copiar link</button><a class="btn ghost sm" href="/admin/api/qr?path=/c/' + esc(c.slug) + '">QR Code</a>' +
-          (isAdmin() ? '<button class="btn ghost sm" data-edit="' + c.id + '">Editar</button><button class="btn ghost sm" data-toggle="' + c.id + '">' + (c.is_active ? 'Desativar' : 'Ativar') + '</button>' : '') + '</div>';
+          (isAdmin() ? '<button class="btn ghost sm" data-edit="' + c.id + '">Editar</button><button class="btn ghost sm" data-toggle="' + c.id + '">' + (c.is_active ? 'Desativar' : 'Ativar') + '</button><button class="btn danger sm" data-del="' + c.id + '">Excluir</button>' : '') + '</div>';
       }).join('') : '<div class="empty">Nenhuma campanha ainda. Crie uma para cada divulgação (post, anúncio, QR da loja, rádio…).</div>';
       document.getElementById('list').innerHTML = html;
       v.querySelectorAll('[data-copy]').forEach(function (b) { b.onclick = function () { copy(b.dataset.copy); }; });
       v.querySelectorAll('[data-edit]').forEach(function (b) { b.onclick = function () { campaignForm(r.rows.find(function (x) { return x.id == b.dataset.edit; })); }; });
+      v.querySelectorAll('[data-del]').forEach(function (b) { b.onclick = function () { confirmDeleteCampaign(r.rows.find(function (x) { return x.id == b.dataset.del; })); }; });
       v.querySelectorAll('[data-toggle]').forEach(function (b) {
         b.onclick = function () { var c = r.rows.find(function (x) { return x.id == b.dataset.toggle; }); api('PUT', '/admin/api/campaigns/' + c.id, { is_active: !c.is_active }).then(function () { toast('Campanha atualizada'); viewCampanhas(); }, function (e) { toast(e.message); }); };
       });
@@ -343,14 +344,21 @@
     var u = c.default_utm || {};
     var opt = function (list, cur) { return list.map(function (x) { return '<option value="' + esc(x[0]) + '"' + (x[0] === cur ? ' selected' : '') + '>' + esc(x[1]) + '</option>'; }).join(''); };
     var body = '<div class="grid2"><label class="f">Nome da campanha<input name="name" required value="' + esc(c.name || '') + '" placeholder="Ex.: Gazeta outubro"></label>' +
-      '<label class="f">Identificador no link <span class="h">' + esc(state.meta.appUrl) + '/c/…</span><input name="slug" ' + (isNew ? '' : 'readonly ') + 'required pattern="[a-z0-9][a-z0-9-]*" value="' + esc(c.slug || '') + '" placeholder="gazeta-out26"></label></div>' +
+      '<label class="f">Identificador no link<input name="slug" ' + (isNew ? '' : 'readonly ') + 'required pattern="[a-z0-9][a-z0-9-]*" value="' + esc(c.slug || '') + '" placeholder="gazeta-out26"><span class="h">' + esc(state.meta.appUrl) + '/c/…' + (isNew ? '' : ' (não muda depois de criada)') + '</span></label></div>' +
       '<div class="grid3"><label class="f">Onde será divulgada<select name="channel">' + opt((state.channels || Object.keys(CHN)).map(function (k) { return [k, CHN[k] || k]; }), c.channel) + '</select></label>' +
-      '<label class="f">Código no WhatsApp <span class="h">vai na mensagem: [GZ26]</span><input name="short_code" maxlength="8" value="' + esc(c.short_code || '') + '"></label>' +
+      '<label class="f">Código no WhatsApp<input name="short_code" maxlength="8" value="' + esc(c.short_code || '') + '" placeholder="GZ26"><span class="h">Opcional. Aparece no fim da mensagem: [GZ26]. Até 8 letras ou números.</span></label>' +
       '<label class="f">Ao abrir o link<select name="landing">' + opt([['page', 'Mostrar a página'], ['cta', 'Ir direto para um botão'], ['review', 'Ir direto para avaliar uma loja']], c.landing) + '</select></label></div>' +
       '<div class="grid2"><label class="f">Botão (se for direto)<select name="landing_cta"><option value="">—</option>' + opt(state.meta.ctas.map(function (x) { return [x.key, x.label]; }), c.landing_cta) + '</select></label>' +
       '<label class="f">Loja (se for avaliar)<select name="landing_store"><option value="">—</option>' + opt(state.meta.stores.map(function (x) { return [x.slug, x.name]; }), c.landing_store) + '</select></label></div>' +
-      '<fieldset><legend>UTM padrão (opcional)</legend><div class="grid3"><label class="f">utm_source<input name="utm_source" value="' + esc(u.utm_source || '') + '" placeholder="instagram"></label><label class="f">utm_medium<input name="utm_medium" value="' + esc(u.utm_medium || '') + '" placeholder="stories"></label><label class="f">utm_campaign<input name="utm_campaign" value="' + esc(u.utm_campaign || '') + '" placeholder="aniversario"></label></div></fieldset>' +
-      '<div class="grid2"><label class="f">Início<input type="date" name="starts_at" value="' + dOnly(c.starts_at) + '"></label><label class="f">Fim <span class="h">depois disso o link abre a página sem campanha</span><input type="date" name="ends_at" value="' + dOnly(c.ends_at) + '"></label></div>' +
+      '<fieldset><legend>Etiquetas UTM (opcional)</legend>' +
+      '<div class="help"><b>Para que serve:</b> UTM são etiquetas que vão junto no link e aparecem nos relatórios (coluna UTM e CSV) e no Google Analytics do site, se a pessoa seguir para lá. ' +
+      'Este painel já mede a campanha sozinho pelo identificador do link, então <b>pode deixar em branco</b>. Preencha só se quiser cruzar com o Analytics ou agrupar várias campanhas.' +
+      '<ul><li><b>Origem</b> (utm_source): de onde vem a pessoa. Ex.: instagram, facebook, gazeta, radio-tribuna</li>' +
+      '<li><b>Meio</b> (utm_medium): o formato da divulgação. Ex.: stories, anuncio, post, qrcode, jornal</li>' +
+      '<li><b>Campanha</b> (utm_campaign): a ação comercial. Ex.: aniversario-26, black-friday</li></ul>' +
+      '<div class="mt8">Use minúsculas, sem acento e com hífen no lugar de espaço. Se o link já chegar com UTM (ex.: anúncio do Meta), vale o que vier no link.</div></div>' +
+      '<div class="grid3"><label class="f">Origem (utm_source)<input name="utm_source" value="' + esc(u.utm_source || '') + '" placeholder="instagram"></label><label class="f">Meio (utm_medium)<input name="utm_medium" value="' + esc(u.utm_medium || '') + '" placeholder="stories"></label><label class="f">Campanha (utm_campaign)<input name="utm_campaign" value="' + esc(u.utm_campaign || '') + '" placeholder="aniversario-26"></label></div></fieldset>' +
+      '<div class="grid2"><label class="f">Início<input type="date" name="starts_at" value="' + dOnly(c.starts_at) + '"><span class="h">Opcional.</span></label><label class="f">Fim<input type="date" name="ends_at" value="' + dOnly(c.ends_at) + '"><span class="h">Opcional. Depois dessa data o link e o QR continuam abrindo a página, mas não contam mais para a campanha.</span></label></div>' +
       '<label class="f">Observações<textarea name="notes">' + esc(c.notes || '') + '</textarea></label>' +
       '<label class="chk"><input type="checkbox" name="is_active"' + (c.is_active ? ' checked' : '') + '> Ativa</label>';
     openModal(isNew ? 'Nova campanha' : 'Editar campanha', body, function (f) {
@@ -362,7 +370,29 @@
         return api('GET', '/admin/api/meta').then(function (m) { state.meta = m; viewCampanhas(); });
       });
     });
+    if (!isNew) {
+      var del = document.createElement('button'); del.type = 'button'; del.className = 'btn danger'; del.textContent = 'Excluir campanha';
+      del.onclick = function () { confirmDeleteCampaign(c); };
+      var mf = mform.querySelector('.mf'); mf.insertBefore(del, mf.firstChild);
+    }
     if (isNew) { var nm = mform.name, sl = mform.slug; nm.oninput = function () { if (!sl.dataset.touched) sl.value = slugify(nm.value); }; sl.oninput = function () { sl.dataset.touched = 1; }; }
+  }
+
+  function confirmDeleteCampaign(c) {
+    var body = '<p>Excluir <b>' + esc(c.name) + '</b> (' + esc(state.meta.appUrl) + '/c/' + esc(c.slug) + ')?</p>' +
+      '<ul class="help"><li>O link e o QR Code continuam abrindo a página principal, mas param de contar para esta campanha.</li>' +
+      '<li>O histórico já registrado (' + n(c.hits || 0) + ' entradas, ' + n(c.clicks || 0) + ' cliques) continua nos relatórios e no CSV.</li>' +
+      '<li>Se quiser só pausar, use <b>Desativar</b>: dá para reativar depois.</li>' +
+      '<li>Evite criar outra campanha com o mesmo identificador, senão os números se misturam com os antigos.</li></ul>' +
+      '<label class="f">Para confirmar, digite o identificador: ' + esc(c.slug) + '<input name="confirm" autocomplete="off"></label>';
+    openModal('Excluir campanha', body, function (f) {
+      if (f.confirm.value.trim() !== c.slug) return Promise.reject(new Error('Digite o identificador exatamente como aparece.'));
+      return api('DELETE', '/admin/api/campaigns/' + c.id).then(function () {
+        toast('Campanha excluída');
+        return api('GET', '/admin/api/meta').then(function (m) { state.meta = m; viewCampanhas(); });
+      });
+    }, 'Excluir definitivamente');
+    var sb = mform.querySelector('.mf .brand'); sb.classList.remove('brand'); sb.classList.add('danger');
   }
 
   // ---------- Atalhos ----------

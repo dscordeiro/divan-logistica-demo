@@ -278,3 +278,22 @@ test('cabeçalhos de segurança presentes', async () => {
   const a = await app.inject({ url: '/admin' });
   assert.equal(a.headers['x-robots-tag'], 'noindex, nofollow');
 });
+
+test('admin exclui campanha: link vira página normal, histórico fica e vai para a auditoria', async () => {
+  const cr = await app.inject({ method: 'POST', url: '/admin/api/campaigns', headers: H(adminCookie), payload: { slug: 'apagar-teste', name: 'Apagar', channel: 'instagram' } });
+  assert.equal(cr.statusCode, 200);
+  const id = cr.json().id;
+  await app.inject({ url: '/c/apagar-teste', headers: visitor() });
+  const before = await db.one("SELECT count(*)::int n FROM events WHERE campaign_slug='apagar-teste'");
+  assert.ok(before.n >= 1);
+  assert.equal((await app.inject({ method: 'DELETE', url: `/admin/api/campaigns/${id}`, headers: { cookie: viewerCookie, 'x-dv': '1' } })).statusCode, 403);
+  assert.equal((await app.inject({ method: 'DELETE', url: `/admin/api/campaigns/${id}`, headers: { cookie: adminCookie, 'x-dv': '1' } })).statusCode, 200);
+  assert.equal((await app.inject({ method: 'DELETE', url: `/admin/api/campaigns/${id}`, headers: { cookie: adminCookie, 'x-dv': '1' } })).statusCode, 404);
+  assert.ok(!(await db.one("SELECT 1 x FROM campaigns WHERE slug='apagar-teste'")));
+  const after = await db.one("SELECT count(*)::int n FROM events WHERE campaign_slug='apagar-teste'");
+  assert.equal(after.n, before.n, 'histórico preservado');
+  const r = await app.inject({ url: '/c/apagar-teste', headers: visitor() });
+  assert.ok([200, 302].includes(r.statusCode));
+  if (r.statusCode === 302) assert.equal(r.headers.location, '/');
+  assert.ok(await db.one("SELECT 1 x FROM audit_log WHERE action='excluiu' AND entity_id='apagar-teste'"));
+});

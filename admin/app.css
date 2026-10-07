@@ -45,7 +45,13 @@ textarea{min-height:70px;width:100%}
 .btn:disabled{opacity:.5;cursor:not-allowed}
 .spacer{flex:1}
 label.f{display:flex;flex-direction:column;gap:4px;font-weight:600;font-size:12.5px;color:var(--ink-2)}
-label.f span.h{font-weight:400;color:var(--muted)}
+label.f span.h{font-weight:400;color:var(--muted);font-size:12px;line-height:1.35;order:3}
+label.f > input,label.f > select,label.f > textarea{order:2}
+.grid2,.grid3{align-items:start}
+.help{font-size:12.5px;color:var(--ink-2);background:#FAF7F1;border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin:0 0 10px;line-height:1.5}
+.help b{color:var(--ink)}
+.help ul{margin:6px 0 0;padding-left:18px}
+.mf .btn.danger{margin-right:auto}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
 .chk{display:flex;gap:8px;align-items:center;font-weight:500}
@@ -143,3 +149,7 @@ legend{font-weight:700;font-size:12.5px;padding:0 6px}
 .exp{display:flex;gap:6px;flex-wrap:wrap}
 .dact{display:flex;gap:8px;align-items:flex-end;margin-top:8px;flex-wrap:wrap}
 .dest input[name=dweight]{width:70px}
+ul.help{padding-left:28px}
+.modal .mb{grid-template-columns:minmax(0,1fr)}
+.grid2>*,.grid3>*{min-width:0}
+label.f > input,label.f > select,label.f > textarea{width:100%;min-width:0}
