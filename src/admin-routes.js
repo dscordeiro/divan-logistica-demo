@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import { config as appConfig } from './config.js';
 import path from 'node:path';
 import QRCode from 'qrcode';
 import { db, getSetting, setSetting } from './db.js';
@@ -10,6 +11,9 @@ import { ipPrefix, invalidateInternalCache, cleanSlug } from './tracking.js';
 import { dashboard, listEvents, exportRows, toCsv } from './stats.js';
 
 const COOKIE = 'dv_admin';
+function removeFirstAccessFile() {
+  try { fs.unlinkSync(path.join(appConfig.dataDir, 'PRIMEIRO-ACESSO.txt')); } catch { /* já removido */ }
+}
 const LOCK_AFTER = 5, LOCK_MIN = 15;
 
 // ---------- Auditoria ----------
@@ -96,6 +100,7 @@ export default async function adminRoutes(app) {
     const need2fa = u.totp_enabled ? 'pending_2fa' : ((config.require2fa && u.role === 'admin') ? 'setup_2fa' : 'full');
     await createSession(reply, req, u.id, need2fa);
     if (need2fa === 'full') {
+      removeFirstAccessFile();
       await db.query('UPDATE users SET last_login_at=now() WHERE id=$1', [u.id]);
       req.user = u; await audit(req, 'login');
     }
@@ -134,6 +139,7 @@ export default async function adminRoutes(app) {
     if (!s.totp_secret_enc || !verifyTotp(decrypt(s.totp_secret_enc), req.body?.code)) return reply.code(400).send({ error: 'Código inválido. Confira o horário do celular.' });
     await db.query('UPDATE users SET totp_enabled=true WHERE id=$1', [s.id]);
     await db.query("UPDATE admin_sessions SET stage='full' WHERE id=$1", [s.sid]);
+    removeFirstAccessFile();
     req.user = s; await audit(req, '2fa_ativado', 'user', s.id);
     if (s.stage === 'setup_2fa') { await db.query('UPDATE users SET last_login_at=now() WHERE id=$1', [s.id]); await audit(req, 'login'); }
     return { stage: 'full', user: publicUser({ ...s, totp_enabled: true }) };
