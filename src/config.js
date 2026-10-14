@@ -42,6 +42,7 @@ export const config = {
   require2fa: env.REQUIRE_2FA ? env.REQUIRE_2FA === 'true' : isProd,
   trustProxy: env.TRUST_PROXY ? env.TRUST_PROXY === 'true' : true,
   adminAllowedIps: (env.ADMIN_ALLOWED_IPS || '').split(',').map(s => s.trim()).filter(Boolean),
+  geoAuto: env.GEOIP_AUTO ? !['0', 'false', 'no'].includes(String(env.GEOIP_AUTO).toLowerCase()) : process.env.NODE_ENV !== 'test',
   geoDbPath: env.GEOIP_DB ? path.resolve(ROOT, env.GEOIP_DB) : path.join(dataDir, 'geo.mmdb'),
   adminEmail: env.ADMIN_EMAIL || 'daniel@agencialeaf.com.br',
   adminPassword: env.ADMIN_PASSWORD || '',

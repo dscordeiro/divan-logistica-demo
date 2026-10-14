@@ -1,4 +1,5 @@
 import { db, getSetting } from './db.js';
+import { updateGeoIfNeeded } from './geo-update.js';
 
 const DAY_EXPR = `(occurred_at AT TIME ZONE 'America/Sao_Paulo')::date`;
 const CLEAN = `NOT is_bot AND NOT is_internal AND NOT is_dup`;
@@ -43,4 +44,8 @@ export function startJobs() {
   };
   setTimeout(run, 10_000);
   setInterval(run, 6 * 3600e3).unref();
+  // Base de localização: baixa na primeira vez e renova todo mês, sem intervenção
+  const geo = () => updateGeoIfNeeded().catch((e) => console.warn('Geo:', e.message));
+  setTimeout(geo, 15_000);
+  setInterval(geo, 24 * 3600e3).unref();
 }

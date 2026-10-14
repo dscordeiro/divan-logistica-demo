@@ -243,8 +243,9 @@
         '<p class="sub mt">Sistema</p>' + bars(d.byOs.slice(0, 5), function (s) { return s.k; }, function (s) { return s.visitors; }) +
         '<p class="sub mt">Navegador</p>' + bars(d.byBrowser.slice(0, 5), function (s) { return s.k; }, function (s) { return s.visitors; }) + '</section>' +
         '<section class="card c4"><h2>Localização aproximada</h2><p class="sub">Visitantes por estado · estimativa pelo endereço de internet</p>' +
-        (d.byUf.length === 1 && d.byUf[0].k === 'Desconhecido' ? '<div class="empty">Geolocalização desativada. Veja Configurações.</div>' : bars(d.byUf, function (s) { return s.k; }, function (s) { return s.visitors; }) +
-          (d.byCity.length ? '<p class="sub mt">Cidades (indicativo; no celular costuma mostrar a cidade da operadora)</p>' + bars(d.byCity, function (s) { return s.city + ' · ' + (s.uf || ''); }, function (s) { return s.visitors; }) : '')) + '</section>' +
+        (d.byUf.length === 1 && d.byUf[0].k === 'Desconhecido' ? '<div class="empty">A base de localização está sendo instalada automaticamente. Os próximos acessos já aparecem aqui por estado e cidade.</div>' : bars(d.byUf, function (s) { return s.k; }, function (s) { return s.visitors; }) +
+          (d.byCity.length ? '<p class="sub mt">Cidades (indicativo; no celular costuma mostrar a cidade da operadora)</p>' + bars(d.byCity, function (s) { return s.city + ' · ' + (s.uf || ''); }, function (s) { return s.visitors; }) : '')) +
+        '<p class="note"><a href="https://db-ip.com" target="_blank" rel="noopener">IP Geolocation by DB-IP</a></p></section>' +
         '<section class="card c8"><h2>Lojas: rotas e avaliações</h2><p class="sub">Toques em "Rota" e "Avaliar" por loja · nota e total do Google atualizados manualmente em Lojas</p>' + storeTable(d.stores) + '</section>' +
         '<section class="card c4"><h2>Contatos por número</h2><p class="sub">Quantas vezes cada número da Divan foi acionado pela página</p>' +
         (d.destinations.length ? bars(d.destinations, function (s) { return destLabel(s); }, function (s) { return s.clicks; }) : '<div class="empty">Nenhum contato no período.</div>') + '</section>' +

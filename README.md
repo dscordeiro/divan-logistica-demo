@@ -39,7 +39,7 @@ Pelo Terminal: `npm install` e depois `npm start`.
 - **Não grava IP**, user-agent completo, nome, telefone nem conversa.
 - **Fora dos relatórios:** robôs e prévias de link (WhatsApp, Facebook…), IPs internos (Configurações) e cliques repetidos em menos de 10 s.
 - **Retenção:** eventos detalhados apagados após 180 dias (configurável); ficam totais diários.
-- **Localização:** opcional. Baixe o arquivo gratuito *IP to City Lite* (formato MMDB) em https://db-ip.com/db/download/ip-to-city-lite e salve como `data/geo.mmdb`. No celular, a cidade costuma ser a da operadora: use como indicativo.
+- **Localização:** automática. O servidor baixa sozinho a base gratuita DB-IP IP to City Lite (CC BY 4.0) em `data/geo.mmdb` na primeira vez e renova todo mês. Para desligar: `GEOIP_AUTO=0`. No celular, a cidade costuma ser a da operadora: use como indicativo.
 
 ## Segurança
 
